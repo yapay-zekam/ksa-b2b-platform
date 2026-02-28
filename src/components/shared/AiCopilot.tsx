@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import {
   Sparkle, X, PaperPlaneRight, ArrowClockwise,
-  ChartBar, Package, Users, TrendUp, TrendDown,
+  ChartBar, Users, TrendUp, TrendDown,
   Robot, Lightning,
 } from '@phosphor-icons/react';
 import {
@@ -324,10 +324,6 @@ function TopBuyersRich() {
     </div>
   );
 }
-
-/* Unused icon suppressor */
-const _Package = Package;
-void _Package;
 
 function RichContent({ type }: { type?: RichType }) {
   if (type === 'weekly-sales')          return <WeeklySalesRich />;

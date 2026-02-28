@@ -25,7 +25,6 @@ export function Topbar({
   role = 'merchant',
   userName = 'Ali',
   businessName = 'Al Noor Cafe',
-  onOpenAi,
 }: TopbarProps) {
   const { theme, toggleTheme } = useTheme();
   const { totalItems, openCart } = useCart();

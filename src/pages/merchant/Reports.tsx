@@ -368,7 +368,7 @@ export default function MerchantReports() {
                     ))}
                   </Pie>
                   <Tooltip
-                    formatter={(value: number) => [`${value.toLocaleString('en')} SAR`, 'Spend']}
+                    formatter={(value: number | string) => [`${Number(value).toLocaleString('en')} SAR`, 'Spend']}
                     contentStyle={{ background: 'hsl(var(--card))', border: '1px solid hsl(var(--border))', borderRadius: '12px', fontSize: '11px' }}
                   />
                 </PieChart>
@@ -519,7 +519,7 @@ export default function MerchantReports() {
                 width={78}
               />
               <Tooltip
-                formatter={(value: number) => [`${value.toLocaleString('en')} SAR`, 'Total Spend']}
+                formatter={(value: number | string) => [`${Number(value).toLocaleString('en')} SAR`, 'Total Spend']}
                 contentStyle={{ background: 'hsl(var(--card))', border: '1px solid hsl(var(--border))', borderRadius: '12px', fontSize: '11px' }}
               />
               <Bar dataKey="spend" radius={[0, 6, 6, 0]}>
@@ -722,7 +722,7 @@ export default function MerchantReports() {
                 tickFormatter={(v) => `${(v / 1000).toFixed(0)}K`}
               />
               <Tooltip
-                formatter={(value: number) => [`${value.toLocaleString('en')} SAR`, 'Spend']}
+                formatter={(value: number | string) => [`${Number(value).toLocaleString('en')} SAR`, 'Spend']}
                 contentStyle={{ background: 'hsl(var(--card))', border: '1px solid hsl(var(--border))', borderRadius: '12px', fontSize: '11px' }}
               />
               <Bar dataKey="value" radius={[6, 6, 0, 0]}>

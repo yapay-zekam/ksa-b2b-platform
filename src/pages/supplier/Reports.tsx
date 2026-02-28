@@ -304,7 +304,7 @@ function StatisticsTab({ period }: { period: FilterPeriod }) {
               <div key={m.rank} className="flex items-center gap-3">
                 <span className="text-[10px] text-muted-foreground font-mono w-4 text-center">{m.rank}</span>
                 <div className="w-7 h-7 rounded-lg flex items-center justify-center text-white text-[9px] font-bold shrink-0" style={{ background: m.color }}>
-                  {m.merchantLogo}
+                  {m.logo}
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-xs font-semibold text-foreground truncate">{m.name}</p>
