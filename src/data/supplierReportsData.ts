@@ -169,3 +169,140 @@ export const emptyCategories = [
   'Fresh >> Fruits and Vegetables >> Vegetables',
   'Beverage >> Energy Drinks',
 ];
+
+/* ══════════════════════════════════════════════════════
+   PERIOD-BASED DATA  ('Today' | 'Week' | 'Month' | 'Year')
+══════════════════════════════════════════════════════ */
+export type SupplierPeriod = 'Today' | 'Week' | 'Month' | 'Year';
+
+/* ─── KPIs by new period ─── */
+export const supplierKpiByPeriod: Record<SupplierPeriod, {
+  revenue: number; revChange: number;
+  avgOrder: number; avgChange: number;
+  pending: number;  pendChange: number;
+  returns: number;  retChange: number;
+  totalOrders: number; visitors: number; orderRate: number;
+}> = {
+  Today: { revenue: 42300,    revChange: +8.2,  avgOrder: 712.50, avgChange: +2.1,  pending: 18,  pendChange: -12.5, returns: 2.8, retChange: -0.4, totalOrders: 59,    visitors: 842,    orderRate: 7.01  },
+  Week:  { revenue: 284750,   revChange: +13.4, avgOrder: 728.80, avgChange: +3.8,  pending: 47,  pendChange: -5.3,  returns: 3.1, retChange: -0.6, totalOrders: 391,   visitors: 4280,   orderRate: 9.13  },
+  Month: { revenue: 1284750,  revChange: +17.3, avgOrder: 736.50, avgChange: +5.2,  pending: 124, pendChange: -8.1,  returns: 3.4, retChange: -0.8, totalOrders: 1742,  visitors: 18640,  orderRate: 10.36 },
+  Year:  { revenue: 10842000, revChange: +22.8, avgOrder: 748.90, avgChange: +8.4,  pending: 847, pendChange: -3.2,  returns: 3.7, retChange: -1.1, totalOrders: 14480, visitors: 148200, orderRate: 9.77  },
+};
+
+/* ─── Sales Growth by period ─── */
+export const salesGrowthByPeriod: Record<SupplierPeriod, Array<{ month: string; revenue: number; orders: number }>> = {
+  Today: [
+    { month: '08:00', revenue: 3200,  orders: 4  },
+    { month: '10:00', revenue: 6800,  orders: 9  },
+    { month: '12:00', revenue: 12400, orders: 17 },
+    { month: '14:00', revenue: 18900, orders: 26 },
+    { month: '16:00', revenue: 28600, orders: 40 },
+    { month: '18:00', revenue: 36100, orders: 51 },
+    { month: '20:00', revenue: 42300, orders: 59 },
+  ],
+  Week: [
+    { month: 'Mon', revenue: 32400,  orders: 44 },
+    { month: 'Tue', revenue: 41800,  orders: 57 },
+    { month: 'Wed', revenue: 38200,  orders: 52 },
+    { month: 'Thu', revenue: 52600,  orders: 72 },
+    { month: 'Fri', revenue: 47300,  orders: 65 },
+    { month: 'Sat', revenue: 31900,  orders: 43 },
+    { month: 'Sun', revenue: 40550,  orders: 58 },
+  ],
+  Month: salesGrowthData,
+  Year: [
+    { month: 'Jan', revenue: 720000,  orders: 978  },
+    { month: 'Feb', revenue: 810000,  orders: 1099 },
+    { month: 'Mar', revenue: 892000,  orders: 1211 },
+    { month: 'Apr', revenue: 948000,  orders: 1287 },
+    { month: 'May', revenue: 1024000, orders: 1390 },
+    { month: 'Jun', revenue: 1100000, orders: 1493 },
+    { month: 'Jul', revenue: 1284750, orders: 1742 },
+    { month: 'Aug', revenue: 1340000, orders: 1820 },
+    { month: 'Sep', revenue: 1102000, orders: 1496 },
+    { month: 'Oct', revenue: 1248000, orders: 1694 },
+    { month: 'Nov', revenue: 982000,  orders: 1332 },
+    { month: 'Dec', revenue: 1190000, orders: 1616 },
+  ],
+};
+
+/* ─── Top selling products by period ─── */
+export const topSellingByPeriod: Record<SupplierPeriod, Array<{ name: string; revenue: number; units: number }>> = {
+  Today: [
+    { name: 'Golden Chicken 1.2kg',      revenue: 12280,  units: 614  },
+    { name: 'Almarai Fresh Milk 2L',     revenue: 8420,   units: 842  },
+    { name: 'Saha Lutein Eggs 15pcs',    revenue: 7600,   units: 380  },
+    { name: 'Puck Cream Cheese 500g',    revenue: 6100,   units: 305  },
+    { name: 'Barakat Frozen Vegs 2.5kg', revenue: 5200,   units: 260  },
+  ],
+  Week: [
+    { name: 'Golden Chicken 1.2kg',      revenue: 42800,  units: 2140 },
+    { name: 'Saha Lutein Eggs 15pcs',    revenue: 37600,  units: 1880 },
+    { name: 'Almarai Fresh Milk 2L',     revenue: 29400,  units: 2940 },
+    { name: 'Barakat Frozen Vegs 2.5kg', revenue: 25200,  units: 1260 },
+    { name: 'Puck Cream Cheese 500g',    revenue: 21900,  units: 1095 },
+  ],
+  Month: topSellingProducts,
+  Year: [
+    { name: 'Golden Chicken 1.2kg',      revenue: 1228000, units: 61400 },
+    { name: 'Almarai Fresh Milk 2L',     revenue: 942000,  units: 94200 },
+    { name: 'Saha Lutein Eggs 15pcs',    revenue: 876000,  units: 43800 },
+    { name: 'Puck Cream Cheese 500g',    revenue: 698000,  units: 34900 },
+    { name: 'Barakat Frozen Vegs 2.5kg', revenue: 527000,  units: 26350 },
+  ],
+};
+
+/* ─── Regional sales by period ─── */
+export const regionalSalesByPeriod: Record<SupplierPeriod, Array<{ region: string; revenue: number; pct: number; color: string }>> = {
+  Today: [
+    { region: 'Riyadh',  revenue: 16800, pct: 39.7, color: '#3D005E' },
+    { region: 'Jeddah',  revenue: 10600, pct: 25.1, color: '#9d1fff' },
+    { region: 'Dammam',  revenue: 7200,  pct: 17.0, color: '#FFD680' },
+    { region: 'Makkah',  revenue: 5100,  pct: 12.1, color: '#c084fc' },
+    { region: 'Madinah', revenue: 2600,  pct: 6.1,  color: '#e9d5ff' },
+  ],
+  Week: [
+    { region: 'Riyadh',  revenue: 113600, pct: 39.9, color: '#3D005E' },
+    { region: 'Jeddah',  revenue: 71200,  pct: 25.0, color: '#9d1fff' },
+    { region: 'Dammam',  revenue: 48400,  pct: 17.0, color: '#FFD680' },
+    { region: 'Makkah',  revenue: 34200,  pct: 12.0, color: '#c084fc' },
+    { region: 'Madinah', revenue: 17350,  pct: 6.1,  color: '#e9d5ff' },
+  ],
+  Month: regionalSales,
+  Year: [
+    { region: 'Riyadh',  revenue: 4326000, pct: 39.9, color: '#3D005E' },
+    { region: 'Jeddah',  revenue: 2710500, pct: 25.0, color: '#9d1fff' },
+    { region: 'Dammam',  revenue: 1843140, pct: 17.0, color: '#FFD680' },
+    { region: 'Makkah',  revenue: 1301040, pct: 12.0, color: '#c084fc' },
+    { region: 'Madinah', revenue: 661320,  pct: 6.1,  color: '#e9d5ff' },
+  ],
+};
+
+/* ─── Top merchants by period ─── */
+export const topMerchantsByPeriod: Record<SupplierPeriod, Array<{ rank: number; name: string; logo: string; color: string; revenue: number; orders: number; city: string; change: number }>> = {
+  Today: [
+    { rank: 1, name: 'Al Noor Cafe',     logo: 'AN', color: '#3D005E', revenue: 6300, orders: 11, city: 'Riyadh',  change: +14.2 },
+    { rank: 2, name: 'Bloom Café',       logo: 'BC', color: '#E8A000', revenue: 5100, orders: 8,  city: 'Riyadh',  change: +22.3 },
+    { rank: 3, name: 'Pearl Restaurant', logo: 'PR', color: '#006E33', revenue: 4200, orders: 7,  city: 'Dammam',  change: +5.6  },
+    { rank: 4, name: 'Sultana Kitchen',  logo: 'SK', color: '#C8102E', revenue: 3800, orders: 6,  city: 'Jeddah',  change: +9.1  },
+    { rank: 5, name: 'Green Bites',      logo: 'GB', color: '#00873E', revenue: 2900, orders: 5,  city: 'Jeddah',  change: -3.2  },
+    { rank: 6, name: 'Urban Grill',      logo: 'UG', color: '#EE3124', revenue: 2100, orders: 4,  city: 'Makkah',  change: +7.8  },
+  ],
+  Week: [
+    { rank: 1, name: 'Al Noor Cafe',     logo: 'AN', color: '#3D005E', revenue: 43100, orders: 73, city: 'Riyadh',  change: +18.4 },
+    { rank: 2, name: 'Sultana Kitchen',  logo: 'SK', color: '#C8102E', revenue: 33400, orders: 57, city: 'Jeddah',  change: +9.1  },
+    { rank: 3, name: 'Pearl Restaurant', logo: 'PR', color: '#006E33', revenue: 27800, orders: 47, city: 'Dammam',  change: +5.6  },
+    { rank: 4, name: 'Bloom Café',       logo: 'BC', color: '#E8A000', revenue: 22100, orders: 39, city: 'Riyadh',  change: +22.3 },
+    { rank: 5, name: 'Green Bites',      logo: 'GB', color: '#00873E', revenue: 18400, orders: 33, city: 'Jeddah',  change: -3.2  },
+    { rank: 6, name: 'The Atrium',       logo: 'TA', color: '#003087', revenue: 10020, orders: 18, city: 'Riyadh',  change: +4.3  },
+  ],
+  Month: topMerchantsReport.slice(0, 6),
+  Year: [
+    { rank: 1, name: 'Sultana Kitchen',  logo: 'SK', color: '#C8102E', revenue: 1421000, orders: 2480, city: 'Jeddah',  change: +12.3 },
+    { rank: 2, name: 'Al Noor Cafe',     logo: 'AN', color: '#3D005E', revenue: 1284000, orders: 2184, city: 'Riyadh',  change: +18.4 },
+    { rank: 3, name: 'Pearl Restaurant', logo: 'PR', color: '#006E33', revenue: 987000,  orders: 1674, city: 'Dammam',  change: +5.6  },
+    { rank: 4, name: 'Bloom Café',       logo: 'BC', color: '#E8A000', revenue: 841000,  orders: 1432, city: 'Riyadh',  change: +22.3 },
+    { rank: 5, name: 'Green Bites',      logo: 'GB', color: '#00873E', revenue: 612000,  orders: 1040, city: 'Jeddah',  change: -3.2  },
+    { rank: 6, name: 'The Atrium',       logo: 'TA', color: '#003087', revenue: 482000,  orders: 820,  city: 'Riyadh',  change: +4.3  },
+  ],
+};

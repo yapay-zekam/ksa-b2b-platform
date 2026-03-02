@@ -26,17 +26,17 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import {
-  spendingTrend,
-  spendingWeekly,
   categoryBreakdown,
   statisticsRows,
   topSuppliers,
   lowStockAlerts,
   kpiByPeriod,
+  spendingTrendByPeriod,
+  categoryByPeriod,
 } from '@/data/reportsData';
 
 type Period = 'Today' | 'Week' | 'Month' | 'Year';
-type Granularity = 'Daily' | 'Weekly';
+type TableGranularity = 'Daily' | 'Weekly' | 'Monthly';
 
 const BRANCHES = ['All Branches', 'Main Kitchen – Riyadh', 'Branch – Al Khobar', 'Branch – Jeddah'];
 const SUPPLIERS_FILTER = ['All Suppliers', 'Miyad International', 'Tamimi Markets', 'Al Jazira', 'Almarai Co.'];
@@ -152,12 +152,12 @@ const ChartTooltip = ({ active, payload, label }: any) => {
 };
 
 export default function MerchantReports() {
-  const [period, setPeriod]           = useState<Period>('Week');
-  const [granularity, setGranularity] = useState<Granularity>('Daily');
-  const [branch, setBranch]           = useState(BRANCHES[0]);
-  const [supplier, setSupplier]       = useState(SUPPLIERS_FILTER[0]);
-  const [startDate, setStartDate]     = useState('07.04.2025');
-  const [endDate, setEndDate]         = useState('13.04.2025');
+  const [period, setPeriod]                   = useState<Period>('Week');
+  const [tableGranularity, setTableGranularity] = useState<TableGranularity>('Daily');
+  const [branch, setBranch]                   = useState(BRANCHES[0]);
+  const [supplier, setSupplier]               = useState(SUPPLIERS_FILTER[0]);
+  const [startDate, setStartDate]             = useState('07.04.2025');
+  const [endDate, setEndDate]                 = useState('13.04.2025');
 
   const kpi = kpiByPeriod[period];
   const spendChange   = ((kpi.spending  - kpi.prevSpending) / kpi.prevSpending) * 100;
@@ -165,11 +165,10 @@ export default function MerchantReports() {
   const avgOrderValue = kpi.spending / kpi.orders;
   const prevAvg       = kpi.prevSpending / kpi.prevOrders;
   const avgChange     = ((avgOrderValue - prevAvg) / prevAvg) * 100;
-  const topCategory   = categoryBreakdown[0];
 
-  const chartData = useMemo(() =>
-    granularity === 'Weekly' ? spendingWeekly : spendingTrend.slice(-14),
-  [granularity]);
+  const chartData    = useMemo(() => spendingTrendByPeriod[period], [period]);
+  const currentCats  = useMemo(() => categoryByPeriod[period],      [period]);
+  const topCategory  = currentCats[0];
 
   const tableData      = statisticsRows;
   const tableTotal     = { orders: tableData.reduce((s, r) => s + r.orders, 0), items: tableData.reduce((s, r) => s + r.items, 0), expense: tableData.reduce((s, r) => s + r.expense, 0) };
@@ -179,10 +178,29 @@ export default function MerchantReports() {
   return (
     <div className="space-y-6">
 
-      {/* ─── TOP: Period + Controls ─── */}
+      {/* ─── TOP: Controls ─── */}
       <div className="flex flex-wrap items-center justify-between gap-3">
-        {/* Period buttons + "Showing data for" */}
-        <div className="flex items-center gap-3">
+
+        {/* LEFT: "Showing data for" + Branch dropdown */}
+        <div className="flex items-center gap-2.5">
+          <span className="text-xs text-muted-foreground hidden sm:block whitespace-nowrap">
+            Showing data for
+          </span>
+          <div className="relative">
+            <select
+              value={branch}
+              onChange={(e) => setBranch(e.target.value)}
+              className="appearance-none pl-8 pr-7 py-2 rounded-xl border border-border bg-card text-xs font-semibold text-foreground outline-none hover:border-brand-700/40 transition-colors cursor-pointer"
+            >
+              {BRANCHES.map((b) => <option key={b}>{b}</option>)}
+            </select>
+            <Buildings size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" weight="light" />
+            <CaretRight size={11} className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none rotate-90" />
+          </div>
+        </div>
+
+        {/* RIGHT: Period buttons + Date range + Export */}
+        <div className="flex items-center gap-2 flex-wrap">
           <div className="flex items-center bg-muted rounded-xl p-0.5 gap-0.5">
             {(['Today', 'Week', 'Month', 'Year'] as Period[]).map((p) => (
               <button
@@ -198,26 +216,6 @@ export default function MerchantReports() {
                 {p}
               </button>
             ))}
-          </div>
-          <span className="text-xs text-muted-foreground hidden sm:block">
-            Showing data for{' '}
-            <span className="font-semibold text-foreground">{branch}</span>
-          </span>
-        </div>
-
-        {/* Controls */}
-        <div className="flex items-center gap-2 flex-wrap">
-          {/* Branch selector */}
-          <div className="relative">
-            <select
-              value={branch}
-              onChange={(e) => setBranch(e.target.value)}
-              className="appearance-none pl-8 pr-7 py-2 rounded-xl border border-border bg-card text-xs font-medium text-foreground outline-none hover:border-brand-700/40 transition-colors cursor-pointer"
-            >
-              {BRANCHES.map((b) => <option key={b}>{b}</option>)}
-            </select>
-            <Buildings size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" weight="light" />
-            <CaretRight size={11} className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none rotate-90" />
           </div>
 
           {/* Date range */}
@@ -279,70 +277,59 @@ export default function MerchantReports() {
       {/* ─── CHARTS ROW ─── */}
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
 
-        {/* Spending Trend */}
-        <Card className="xl:col-span-2">
+        {/* Spending Trend — fills card height, no granularity toggle */}
+        <Card className="xl:col-span-2 flex flex-col">
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle>Spending Trend</CardTitle>
                 <p className="text-xs text-muted-foreground mt-1">
-                  Total expenditure over time ({granularity.toLowerCase()})
+                  Total expenditure{' '}
+                  {period === 'Today' ? 'today (hourly)' :
+                   period === 'Week'  ? 'this week (daily)' :
+                   period === 'Month' ? 'this month' : 'this year (monthly)'}
                 </p>
               </div>
-              <div className="flex items-center gap-1 bg-muted rounded-xl p-0.5">
-                {(['Daily', 'Weekly'] as Granularity[]).map((g) => (
-                  <button
-                    key={g}
-                    onClick={() => setGranularity(g)}
-                    className={cn(
-                      'px-3 py-1.5 rounded-lg text-[10px] font-semibold transition-all',
-                      granularity === g
-                        ? 'bg-card text-foreground shadow-sm'
-                        : 'text-muted-foreground hover:text-foreground'
-                    )}
-                  >
-                    {g}
-                  </button>
-                ))}
+              <div className="flex items-center gap-4 text-xs">
+                <span className="flex items-center gap-1.5">
+                  <span className="w-3 h-0.5 rounded-full bg-brand-700 inline-block" />
+                  <span className="text-muted-foreground">Spending (SAR)</span>
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <span className="w-3 h-0.5 rounded-full bg-gold-400 inline-block" />
+                  <span className="text-muted-foreground">Orders</span>
+                </span>
               </div>
             </div>
           </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={260}>
-              <AreaChart data={chartData} margin={{ top: 4, right: 4, left: -10, bottom: 0 }}>
-                <defs>
-                  <linearGradient id="spendGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%"  stopColor="#3D005E" stopOpacity={0.18} />
-                    <stop offset="95%" stopColor="#3D005E" stopOpacity={0} />
-                  </linearGradient>
-                  <linearGradient id="ordersGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%"  stopColor="#FFD680" stopOpacity={0.25} />
-                    <stop offset="95%" stopColor="#FFD680" stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" vertical={false} />
-                <XAxis dataKey="date" tick={{ fontSize: 10, fill: 'hsl(var(--muted-foreground))' }} axisLine={false} tickLine={false} />
-                <YAxis yAxisId="spend" tick={{ fontSize: 10, fill: 'hsl(var(--muted-foreground))' }} axisLine={false} tickLine={false} tickFormatter={(v) => `${(v / 1000).toFixed(0)}K`} />
-                <YAxis yAxisId="orders" orientation="right" tick={{ fontSize: 10, fill: 'hsl(var(--muted-foreground))' }} axisLine={false} tickLine={false} />
-                <Tooltip content={<ChartTooltip />} />
-                <Area yAxisId="spend"  type="monotone" dataKey="spend"  stroke="#3D005E" strokeWidth={2.5} fill="url(#spendGrad)"  dot={false} activeDot={{ r: 4, fill: '#3D005E', stroke: '#fff', strokeWidth: 2 }} />
-                <Area yAxisId="orders" type="monotone" dataKey="orders" stroke="#FFD680" strokeWidth={2} fill="url(#ordersGrad)" dot={false} activeDot={{ r: 4, fill: '#FFD680', stroke: '#fff', strokeWidth: 2 }} />
-              </AreaChart>
-            </ResponsiveContainer>
-            <div className="flex items-center gap-4 mt-3 justify-center text-xs">
-              <span className="flex items-center gap-1.5">
-                <span className="w-3 h-0.5 rounded-full bg-brand-700 inline-block" />
-                <span className="text-muted-foreground">Spending (SAR)</span>
-              </span>
-              <span className="flex items-center gap-1.5">
-                <span className="w-3 h-0.5 rounded-full bg-gold-400 inline-block" />
-                <span className="text-muted-foreground">Orders</span>
-              </span>
+          <CardContent className="flex-1 min-h-0 pb-4">
+            <div className="h-full" style={{ minHeight: 280 }}>
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={chartData} margin={{ top: 4, right: 4, left: -10, bottom: 0 }}>
+                  <defs>
+                    <linearGradient id="spendGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%"  stopColor="#3D005E" stopOpacity={0.18} />
+                      <stop offset="95%" stopColor="#3D005E" stopOpacity={0} />
+                    </linearGradient>
+                    <linearGradient id="ordersGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%"  stopColor="#FFD680" stopOpacity={0.25} />
+                      <stop offset="95%" stopColor="#FFD680" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" vertical={false} />
+                  <XAxis dataKey="date" tick={{ fontSize: 10, fill: 'hsl(var(--muted-foreground))' }} axisLine={false} tickLine={false} />
+                  <YAxis yAxisId="spend" tick={{ fontSize: 10, fill: 'hsl(var(--muted-foreground))' }} axisLine={false} tickLine={false} tickFormatter={(v) => `${(v / 1000).toFixed(0)}K`} />
+                  <YAxis yAxisId="orders" orientation="right" tick={{ fontSize: 10, fill: 'hsl(var(--muted-foreground))' }} axisLine={false} tickLine={false} />
+                  <Tooltip content={<ChartTooltip />} />
+                  <Area yAxisId="spend"  type="monotone" dataKey="spend"  stroke="#3D005E" strokeWidth={2.5} fill="url(#spendGrad)"  dot={false} activeDot={{ r: 4, fill: '#3D005E', stroke: '#fff', strokeWidth: 2 }} />
+                  <Area yAxisId="orders" type="monotone" dataKey="orders" stroke="#FFD680" strokeWidth={2} fill="url(#ordersGrad)" dot={false} activeDot={{ r: 4, fill: '#FFD680', stroke: '#fff', strokeWidth: 2 }} />
+                </AreaChart>
+              </ResponsiveContainer>
             </div>
           </CardContent>
         </Card>
 
-        {/* Category Donut */}
+        {/* Category Donut — synced with period */}
         <Card>
           <CardHeader>
             <CardTitle>Expenditure by Category</CardTitle>
@@ -353,7 +340,7 @@ export default function MerchantReports() {
               <ResponsiveContainer width="100%" height={200}>
                 <PieChart>
                   <Pie
-                    data={categoryBreakdown}
+                    data={currentCats}
                     cx="50%"
                     cy="50%"
                     innerRadius={58}
@@ -363,7 +350,7 @@ export default function MerchantReports() {
                     strokeWidth={0}
                     labelLine={false}
                   >
-                    {categoryBreakdown.map((entry, i) => (
+                    {currentCats.map((entry, i) => (
                       <Cell key={i} fill={entry.color} />
                     ))}
                   </Pie>
@@ -375,7 +362,7 @@ export default function MerchantReports() {
               </ResponsiveContainer>
             </div>
             <div className="space-y-2 mt-2">
-              {categoryBreakdown.map((cat) => (
+              {currentCats.map((cat) => (
                 <div key={cat.name} className="flex items-center gap-2">
                   <span className="w-2.5 h-2.5 rounded-sm shrink-0" style={{ background: cat.color }} />
                   <span className="text-[11px] text-muted-foreground flex-1 truncate">{cat.name}</span>
@@ -396,12 +383,12 @@ export default function MerchantReports() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <CardTitle>Statistics</CardTitle>
             <div className="flex items-center gap-2 flex-wrap">
-              {/* Time period */}
+              {/* Time period — controls table only, not charts */}
               <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-border bg-muted/40 text-xs text-muted-foreground">
                 <span className="font-medium">Time Period</span>
                 <select
-                  value={granularity}
-                  onChange={(e) => setGranularity(e.target.value as Granularity)}
+                  value={tableGranularity}
+                  onChange={(e) => setTableGranularity(e.target.value as TableGranularity)}
                   className="bg-transparent text-foreground font-semibold outline-none cursor-pointer"
                 >
                   <option>Daily</option>

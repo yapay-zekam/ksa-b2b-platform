@@ -86,6 +86,100 @@ export const lowStockAlerts = [
   { product: 'Nada Long Life UHT Full Fat Milk – 12×1L', category: 'Dairy',    stock: 22,  reorderPoint: 48,  lastOrdered: '6 days ago',  severity: 'medium'   as const, image: '/product-images/milk-nada.png' },
 ];
 
+/* ─── Spending trend by period ─── */
+export const spendingTrendByPeriod = {
+  Today: [
+    { date: '08:00', spend: 4200,  orders: 5  },
+    { date: '09:00', spend: 7800,  orders: 10 },
+    { date: '10:00', spend: 11300, orders: 15 },
+    { date: '11:00', spend: 9600,  orders: 12 },
+    { date: '12:00', spend: 15200, orders: 20 },
+    { date: '13:00', spend: 18400, orders: 24 },
+    { date: '14:00', spend: 22100, orders: 29 },
+    { date: '15:00', spend: 19800, orders: 26 },
+    { date: '16:00', spend: 25600, orders: 34 },
+    { date: '17:00', spend: 31200, orders: 41 },
+    { date: '18:00', spend: 28900, orders: 38 },
+    { date: '19:00', spend: 64800, orders: 86 },
+  ],
+  Week: [
+    { date: 'Mon',  spend: 48200,  orders: 63 },
+    { date: 'Tue',  spend: 55100,  orders: 72 },
+    { date: 'Wed',  spend: 61400,  orders: 81 },
+    { date: 'Thu',  spend: 57800,  orders: 76 },
+    { date: 'Fri',  spend: 72300,  orders: 95 },
+    { date: 'Sat',  spend: 43600,  orders: 57 },
+    { date: 'Sun',  spend: 56200,  orders: 73 },
+  ],
+  Month: [
+    { date: '01 Apr', spend: 18200, orders: 24 },
+    { date: '04 Apr', spend: 27300, orders: 35 },
+    { date: '07 Apr', spend: 22400, orders: 30 },
+    { date: '10 Apr', spend: 35600, orders: 47 },
+    { date: '13 Apr', spend: 33400, orders: 44 },
+    { date: '16 Apr', spend: 44800, orders: 60 },
+    { date: '19 Apr', spend: 43100, orders: 57 },
+    { date: '22 Apr', spend: 52900, orders: 70 },
+    { date: '25 Apr', spend: 49700, orders: 66 },
+    { date: '28 Apr', spend: 61400, orders: 81 },
+    { date: '30 Apr', spend: 64800, orders: 86 },
+  ],
+  Year: [
+    { date: 'Jan', spend: 612000, orders: 782  },
+    { date: 'Feb', spend: 584000, orders: 741  },
+    { date: 'Mar', spend: 698000, orders: 889  },
+    { date: 'Apr', spend: 731000, orders: 930  },
+    { date: 'May', spend: 756000, orders: 963  },
+    { date: 'Jun', spend: 683000, orders: 869  },
+    { date: 'Jul', spend: 712000, orders: 906  },
+    { date: 'Aug', spend: 769000, orders: 979  },
+    { date: 'Sep', spend: 801000, orders: 1019 },
+    { date: 'Oct', spend: 842000, orders: 1071 },
+    { date: 'Nov', spend: 876000, orders: 1115 },
+    { date: 'Dec', spend: 918000, orders: 1168 },
+  ],
+} as const satisfies Record<string, Array<{ date: string; spend: number; orders: number }>>;
+
+/* ─── Category breakdown by period ─── */
+export const categoryByPeriod = {
+  Today: [
+    { name: 'Dairy & Eggs',   value: 18200, pct: 28.1, color: '#3D005E' },
+    { name: 'Poultry & Meat', value: 13600, pct: 21.0, color: '#9d1fff' },
+    { name: 'Frozen Foods',   value: 10400, pct: 16.1, color: '#FFD680' },
+    { name: 'Beverages',      value: 8400,  pct: 13.0, color: '#d1b3ff' },
+    { name: 'Vegetables',     value: 5800,  pct:  8.9, color: '#7c00d4' },
+    { name: 'Fruits',         value: 4200,  pct:  6.5, color: '#f5c842' },
+    { name: 'Other',          value: 4200,  pct:  6.4, color: '#2a0042' },
+  ],
+  Week: [
+    { name: 'Dairy & Eggs',   value: 112000, pct: 28.4, color: '#3D005E' },
+    { name: 'Poultry & Meat', value: 82800,  pct: 21.0, color: '#9d1fff' },
+    { name: 'Frozen Foods',   value: 63200,  pct: 16.0, color: '#FFD680' },
+    { name: 'Beverages',      value: 51200,  pct: 13.0, color: '#d1b3ff' },
+    { name: 'Vegetables',     value: 35100,  pct:  8.9, color: '#7c00d4' },
+    { name: 'Fruits',         value: 26000,  pct:  6.6, color: '#f5c842' },
+    { name: 'Other',          value: 24300,  pct:  6.1, color: '#2a0042' },
+  ],
+  Month: [
+    { name: 'Dairy & Eggs',   value: 312400, pct: 28.4, color: '#3D005E' },
+    { name: 'Poultry & Meat', value: 231600, pct: 21.0, color: '#9d1fff' },
+    { name: 'Frozen Foods',   value: 176800, pct: 16.1, color: '#FFD680' },
+    { name: 'Beverages',      value: 143200, pct: 13.0, color: '#d1b3ff' },
+    { name: 'Vegetables',     value: 98700,  pct:  8.9, color: '#7c00d4' },
+    { name: 'Fruits',         value: 72300,  pct:  6.6, color: '#f5c842' },
+    { name: 'Other',          value: 66500,  pct:  6.0, color: '#2a0042' },
+  ],
+  Year: [
+    { name: 'Dairy & Eggs',   value: 2362000, pct: 28.3, color: '#3D005E' },
+    { name: 'Poultry & Meat', value: 1751000, pct: 21.0, color: '#9d1fff' },
+    { name: 'Frozen Foods',   value: 1340000, pct: 16.1, color: '#FFD680' },
+    { name: 'Beverages',      value: 1083000, pct: 13.0, color: '#d1b3ff' },
+    { name: 'Vegetables',     value: 743000,  pct:  8.9, color: '#7c00d4' },
+    { name: 'Fruits',         value: 547000,  pct:  6.6, color: '#f5c842' },
+    { name: 'Other',          value: 516000,  pct:  6.1, color: '#2a0042' },
+  ],
+} as const satisfies Record<string, Array<{ name: string; value: number; pct: number; color: string }>>;
+
 /* ─── Summary KPIs for different periods ─── */
 export const kpiByPeriod = {
   Today:  { spending: 64800,   prevSpending: 57200,  orders: 86,  prevOrders: 75,  items: 3400 },

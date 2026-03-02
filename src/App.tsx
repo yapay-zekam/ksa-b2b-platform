@@ -11,10 +11,11 @@ import MerchantReports       from '@/pages/merchant/Reports';
 import MerchantPlaceholder   from '@/pages/merchant/Placeholder';
 
 /* Supplier pages */
-import SupplierDashboard   from '@/pages/supplier/Dashboard';
-import SupplierAddProduct  from '@/pages/supplier/AddProduct';
-import SupplierReports     from '@/pages/supplier/Reports';
-import SupplierPlaceholder from '@/pages/supplier/Placeholder';
+import SupplierDashboard        from '@/pages/supplier/Dashboard';
+import SupplierAddProduct       from '@/pages/supplier/AddProduct';
+import SupplierReports          from '@/pages/supplier/Reports';
+import SupplierSalesMonitoring  from '@/pages/supplier/SalesMonitoring';
+import SupplierPlaceholder      from '@/pages/supplier/Placeholder';
 
 export default function App() {
   return (
@@ -51,8 +52,9 @@ export default function App() {
             <Route path="orders"       element={<SupplierPlaceholder />} />
             <Route path="payments"     element={<SupplierPlaceholder />} />
             <Route path="invoices"     element={<SupplierPlaceholder />} />
-            <Route path="reports"      element={<SupplierReports />} />
-            <Route path="analytics"    element={<SupplierPlaceholder />} />
+            <Route path="reports"          element={<SupplierReports />} />
+            <Route path="sales-monitoring" element={<SupplierSalesMonitoring />} />
+            <Route path="analytics"        element={<SupplierPlaceholder />} />
             <Route path="storefront"   element={<SupplierPlaceholder />} />
             <Route path="profile"      element={<SupplierPlaceholder />} />
             <Route path="users"        element={<SupplierPlaceholder />} />

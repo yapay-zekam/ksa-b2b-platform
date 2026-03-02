@@ -124,8 +124,8 @@ const supplierNav: NavSection[] = [
         href: '/supplier/reports',
         icon: ChartBar,
         children: [
-          { label: 'Statistics',           href: '/supplier/reports?tab=statistics' },
-          { label: 'Sales Monitoring',     href: '/supplier/reports?tab=monitoring' },
+          { label: 'Statistics',       href: '/supplier/reports' },
+          { label: 'Sales Monitoring', href: '/supplier/sales-monitoring' },
           { label: 'Best Categories',      href: '/supplier/reports?tab=categories' },
           { label: 'Top Merchants',        href: '/supplier/reports?tab=merchants' },
           { label: 'Payment Distribution', href: '/supplier/reports?tab=payments' },
