@@ -32,6 +32,7 @@ export const ordersByBranchData = [
   { branch: 'Chn - Wadi Laban', orders: 89, target: 110 },
   { branch: 'UlB - Almalaz', orders: 8, target: 30 },
   { branch: 'Tiko - Sanafa', orders: 94, target: 120 },
+  { branch: 'Chn - Suwaldi', orders: 76, target: 150 },
 ];
 
 export const recentOrders = [

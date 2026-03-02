@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   AreaChart,
   Area,
@@ -18,22 +18,22 @@ import {
   TrendDown,
   Buildings,
   Package,
-  CaretLeft,
   CaretRight,
   CalendarBlank,
-  ArrowUpRight,
   Funnel,
   MagnifyingGlass,
   Eye,
+  Star,
+  WarningCircle,
+  Lightning,
+  ArrowUpRight,
 } from '@phosphor-icons/react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import {
   ordersByBranchData,
   recentOrders,
-  supplierTrackingStats,
   merchantKpiByPeriod,
   orderTrendByPeriod,
   stockStatusByPeriod,
@@ -164,21 +164,27 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   return null;
 };
 
-const CAROUSEL_VISIBLE = 5;
 
 export default function MerchantDashboard() {
   const [period, setPeriod] = useState<Period>('Month');
   const [activeTab, setActiveTab] = useState<OrderTab>('Recent Orders');
   const [branchFilter, setBranchFilter] = useState('All Branches');
-  const [selectedSupplier, setSelectedSupplier] = useState(0);
-  const [carouselStart, setCarouselStart] = useState(0);
+  const [visibleAlerts, setVisibleAlerts] = useState([false, false, false]);
 
   const kpi              = merchantKpiByPeriod[period];
   const currentTrendData = orderTrendByPeriod[period];
   const currentStockData = stockStatusByPeriod[period];
   const totalStock       = currentStockData.reduce((s, d) => s + d.value, 0);
-  const currentTracking  = supplierTrackingStats[selectedSupplier];
-  const canceledPct = Math.round((currentTracking.canceled / currentTracking.totalOrders) * 100);
+
+  useEffect(() => {
+    const timers = [100, 320, 540].map((delay, i) =>
+      setTimeout(() =>
+        setVisibleAlerts((prev) => { const n = [...prev]; n[i] = true; return n; }),
+        delay
+      )
+    );
+    return () => timers.forEach(clearTimeout);
+  }, []);
 
   return (
     <div className="space-y-6">
@@ -371,178 +377,179 @@ export default function MerchantDashboard() {
         </Card>
       </div>
 
-      {/* ─── Order Tracking + Orders by Branch ─── */}
+      {/* ─── AI Predictive Insights + Orders by Branch ─── */}
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
 
-        {/* Order Tracking — 2-column internal layout */}
-        <Card className="xl:col-span-2">
-          <CardHeader>
+        {/* AI Predictive Insights */}
+        <Card className="xl:col-span-2 overflow-hidden">
+          <CardHeader className="pb-4">
             <div className="flex items-center justify-between">
-              <CardTitle>Order Tracking</CardTitle>
-              <Button variant="ghost" size="sm">
-                View all <ArrowUpRight size={13} />
-              </Button>
+              <div className="flex items-center gap-3">
+                {/* Glowing AI icon */}
+                <div className="relative w-10 h-10 rounded-2xl bg-brand-700 flex items-center justify-center shrink-0 shadow-lg">
+                  <Star size={20} weight="fill" className="text-gold-300" />
+                  <span className="absolute inset-0 rounded-2xl bg-brand-700 animate-ping opacity-20 pointer-events-none" />
+                </div>
+                <div>
+                  <CardTitle>AI Predictive Insights</CardTitle>
+                  <p className="text-xs text-muted-foreground mt-0.5">Smart alerts powered by pattern analysis</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse shrink-0" />
+                <span className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">Live</span>
+              </div>
             </div>
           </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-[1fr_180px] gap-6">
 
-              {/* Left column */}
-              <div className="min-w-0">
-                {/* Supplier carousel */}
-                <div className="flex items-center gap-2 mb-5">
-                  <button
-                    onClick={() => setCarouselStart((s) => Math.max(0, s - 1))}
-                    disabled={carouselStart === 0}
-                    className="p-1.5 rounded-lg hover:bg-muted transition-colors text-muted-foreground disabled:opacity-30"
-                  >
-                    <CaretLeft size={14} weight="bold" />
-                  </button>
+          <CardContent className="space-y-3 pt-0">
 
-                  <div className="flex items-center gap-3 flex-1 overflow-hidden">
-                    {supplierTrackingStats
-                      .slice(carouselStart, carouselStart + CAROUSEL_VISIBLE)
-                      .map((s, i) => {
-                        const globalIdx = carouselStart + i;
-                        const isActive = globalIdx === selectedSupplier;
-                        return (
-                          <button
-                            key={s.name}
-                            onClick={() => setSelectedSupplier(globalIdx)}
-                            className="flex flex-col items-center gap-1.5 shrink-0 group"
-                          >
-                            <div
-                              className={cn(
-                                'w-11 h-11 rounded-full flex items-center justify-center text-white text-[10px] font-bold transition-all',
-                                isActive
-                                  ? 'ring-2 ring-offset-2 ring-brand-700 dark:ring-offset-card scale-110'
-                                  : 'ring-2 ring-border group-hover:ring-brand-700/40'
-                              )}
-                              style={{ background: s.color }}
-                            >
-                              {s.logo}
-                            </div>
-                            <span
-                              className={cn(
-                                'text-[9px] text-center leading-tight max-w-[52px] truncate font-medium',
-                                isActive
-                                  ? 'text-brand-700 dark:text-brand-300'
-                                  : 'text-muted-foreground'
-                              )}
-                            >
-                              {s.name.split(' ')[0]}
-                            </span>
-                          </button>
-                        );
-                      })}
+            {/* ── Alert 1 · Critical (Low Stock) ── */}
+            <div
+              style={{
+                opacity: visibleAlerts[0] ? 1 : 0,
+                transform: visibleAlerts[0] ? 'translateY(0)' : 'translateY(14px)',
+                transition: 'opacity 0.5s ease, transform 0.5s ease',
+              }}
+            >
+              <div className="group relative flex items-start gap-4 p-4 rounded-2xl border border-red-200 dark:border-red-900/40 bg-red-50/60 dark:bg-red-950/20 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 cursor-default overflow-hidden">
+                {/* Left accent strip */}
+                <div className="absolute left-0 top-0 bottom-0 w-1 rounded-l-2xl bg-red-500" />
+                {/* Icon with pulse */}
+                <div className="relative shrink-0 mt-0.5 ml-1">
+                  <div className="w-9 h-9 rounded-xl bg-red-100 dark:bg-red-900/40 flex items-center justify-center">
+                    <WarningCircle size={20} weight="fill" className="text-red-500" />
                   </div>
-
-                  <button
-                    onClick={() =>
-                      setCarouselStart((s) =>
-                        Math.min(supplierTrackingStats.length - CAROUSEL_VISIBLE, s + 1)
-                      )
-                    }
-                    disabled={carouselStart >= supplierTrackingStats.length - CAROUSEL_VISIBLE}
-                    className="p-1.5 rounded-lg hover:bg-muted transition-colors text-muted-foreground disabled:opacity-30"
-                  >
-                    <CaretRight size={14} weight="bold" />
-                  </button>
+                  <span className="absolute inset-0 rounded-xl bg-red-300/15 animate-ping pointer-events-none" />
                 </div>
-
-                {/* Stats cards */}
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="p-4 bg-muted/50 rounded-xl border border-border">
-                    <p className="text-xs text-muted-foreground mb-1">Total Order</p>
-                    <p className="text-2xl font-bold text-foreground leading-none mb-1">
-                      {currentTracking.totalOrders.toLocaleString()}
-                    </p>
-                    <span
-                      className={cn(
-                        'inline-flex items-center gap-1 text-xs font-semibold',
-                        currentTracking.orderTrend >= 0 ? 'text-emerald-600' : 'text-red-500'
-                      )}
-                    >
-                      {currentTracking.orderTrend >= 0 ? (
-                        <TrendUp size={11} weight="bold" />
-                      ) : (
-                        <TrendDown size={11} weight="bold" />
-                      )}
-                      {Math.abs(currentTracking.orderTrend)}%
-                    </span>
-                  </div>
-
-                  <div className="p-4 bg-muted/50 rounded-xl border border-border">
-                    <p className="text-xs text-muted-foreground mb-1">Total Spend</p>
-                    <p className="text-xl font-bold text-foreground leading-none mb-1">
-                      {currentTracking.totalSpend.toLocaleString('en', { minimumFractionDigits: 2 })}{' '}
-                      <span className="text-xs font-medium text-muted-foreground">SAR</span>
-                    </p>
-                    <span
-                      className={cn(
-                        'inline-flex items-center gap-1 text-xs font-semibold',
-                        currentTracking.spendTrend >= 0 ? 'text-emerald-600' : 'text-red-500'
-                      )}
-                    >
-                      {currentTracking.spendTrend >= 0 ? (
-                        <TrendUp size={11} weight="bold" />
-                      ) : (
-                        <TrendDown size={11} weight="bold" />
-                      )}
-                      {Math.abs(currentTracking.spendTrend)}%
-                    </span>
+                {/* Content */}
+                <div className="flex-1 min-w-0">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-red-600 dark:text-red-400">
+                    Critical · Low Stock
+                  </span>
+                  <p className="text-sm font-medium text-foreground mt-0.5 leading-snug">
+                    Frozen Chicken in{' '}
+                    <span className="font-bold text-red-600 dark:text-red-400">Riyadh branch</span>{' '}
+                    is estimated to deplete in{' '}
+                    <span className="font-bold">48 hours</span>.
+                  </p>
+                  <div className="flex items-center gap-3 mt-2">
+                    <span className="text-[10px] text-muted-foreground">Current stock: 12 units</span>
+                    <span className="text-muted-foreground/40">·</span>
+                    <button className="text-[10px] font-semibold text-red-600 dark:text-red-400 hover:underline transition-all">
+                      Reorder Now →
+                    </button>
                   </div>
                 </div>
-              </div>
-
-              {/* Right column — Pie chart */}
-              <div className="flex flex-col items-center">
-                <div className="relative">
-                  <ResponsiveContainer width={160} height={160}>
-                    <PieChart>
-                      <Pie
-                        data={[
-                          { value: currentTracking.canceled },
-                          { value: currentTracking.totalOrders - currentTracking.canceled },
-                        ]}
-                        cx="50%"
-                        cy="50%"
-                        innerRadius={48}
-                        outerRadius={70}
-                        paddingAngle={2}
-                        dataKey="value"
-                        strokeWidth={0}
-                        startAngle={90}
-                        endAngle={-270}
-                      >
-                        <Cell fill="#FFD680" />
-                        <Cell fill="#3D005E" />
-                      </Pie>
-                    </PieChart>
-                  </ResponsiveContainer>
-                  <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                    <span className="text-xl font-bold text-foreground leading-none">
-                      {currentTracking.canceled}
-                    </span>
-                    <span className="text-[9px] text-muted-foreground leading-tight">Cancelled</span>
-                    <span className="text-xs font-semibold text-gold-500 leading-tight">
-                      {canceledPct}%
-                    </span>
-                  </div>
-                </div>
-
-                <div className="space-y-1.5 text-xs mt-1">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-brand-700 shrink-0" />
-                    <span className="text-muted-foreground">Total Order</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-gold-400 shrink-0" />
-                    <span className="text-muted-foreground">Cancelled ({canceledPct}%)</span>
-                  </div>
+                {/* Thumbnail */}
+                <div className="relative w-12 h-12 rounded-xl bg-white dark:bg-white/5 border border-border flex items-center justify-center shrink-0 overflow-hidden">
+                  <Package size={18} className="text-muted-foreground/30" weight="light" />
+                  <img
+                    src="/product-images/frozen-chicken.png"
+                    alt=""
+                    className="absolute inset-0 w-full h-full object-contain p-1"
+                    onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                  />
                 </div>
               </div>
             </div>
+
+            {/* ── Alert 2 · Opportunity (Bulk Discount) ── */}
+            <div
+              style={{
+                opacity: visibleAlerts[1] ? 1 : 0,
+                transform: visibleAlerts[1] ? 'translateY(0)' : 'translateY(14px)',
+                transition: 'opacity 0.5s ease, transform 0.5s ease',
+              }}
+            >
+              <div
+                className="group relative flex items-start gap-4 p-4 rounded-2xl border border-brand-700/20 dark:border-brand-700/30 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 cursor-default overflow-hidden"
+                style={{ background: 'linear-gradient(135deg, rgba(61,0,94,0.07) 0%, rgba(137,51,255,0.04) 100%)' }}
+              >
+                {/* Left accent strip */}
+                <div className="absolute left-0 top-0 bottom-0 w-1 rounded-l-2xl bg-gradient-to-b from-brand-700 to-[#9d1fff]" />
+                {/* Decorative glow */}
+                <div className="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-brand-700/10 blur-2xl pointer-events-none" />
+                {/* Icon */}
+                <div className="relative shrink-0 mt-0.5 ml-1">
+                  <div className="w-9 h-9 rounded-xl bg-brand-700/10 dark:bg-brand-700/20 flex items-center justify-center">
+                    <Lightning size={20} weight="fill" className="text-brand-700 dark:text-brand-300" />
+                  </div>
+                </div>
+                {/* Content */}
+                <div className="flex-1 min-w-0">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-brand-700 dark:text-brand-300">
+                    Opportunity · Bulk Discount
+                  </span>
+                  <p className="text-sm font-medium text-foreground mt-0.5 leading-snug">
+                    Supplier{' '}
+                    <span className="font-bold text-brand-700 dark:text-brand-300">'Tamimi'</span>{' '}
+                    offers{' '}
+                    <span className="font-bold">15% off</span>{' '}
+                    on Dairy products for the next{' '}
+                    <span className="font-bold">5 hours</span>.
+                  </p>
+                  <div className="flex items-center gap-3 mt-2">
+                    <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-gold-400/15 border border-gold-400/30">
+                      <span className="text-[10px] font-bold text-gold-600 dark:text-gold-300">⏱ 4h 52m left</span>
+                    </div>
+                    <button className="text-[10px] font-semibold text-brand-700 dark:text-brand-300 hover:underline transition-all">
+                      Apply Discount →
+                    </button>
+                  </div>
+                </div>
+                {/* Badge */}
+                <div className="shrink-0 flex flex-col items-center justify-center w-12 h-12 rounded-xl bg-brand-700 shadow-md">
+                  <span className="text-lg font-black text-gold-300 leading-none">15</span>
+                  <span className="text-[9px] font-bold text-white/70 leading-tight">% OFF</span>
+                </div>
+              </div>
+            </div>
+
+            {/* ── Alert 3 · Trend (High Demand) ── */}
+            <div
+              style={{
+                opacity: visibleAlerts[2] ? 1 : 0,
+                transform: visibleAlerts[2] ? 'translateY(0)' : 'translateY(14px)',
+                transition: 'opacity 0.5s ease, transform 0.5s ease',
+              }}
+            >
+              <div className="group relative flex items-start gap-4 p-4 rounded-2xl border border-emerald-200 dark:border-emerald-900/40 bg-emerald-50/60 dark:bg-emerald-950/20 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 cursor-default overflow-hidden">
+                {/* Left accent strip */}
+                <div className="absolute left-0 top-0 bottom-0 w-1 rounded-l-2xl bg-emerald-500" />
+                {/* Icon */}
+                <div className="relative shrink-0 mt-0.5 ml-1">
+                  <div className="w-9 h-9 rounded-xl bg-emerald-100 dark:bg-emerald-900/40 flex items-center justify-center">
+                    <TrendUp size={20} weight="bold" className="text-emerald-600 dark:text-emerald-400" />
+                  </div>
+                </div>
+                {/* Content */}
+                <div className="flex-1 min-w-0">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-700 dark:text-emerald-400">
+                    Trend · High Demand
+                  </span>
+                  <p className="text-sm font-medium text-foreground mt-0.5 leading-snug">
+                    <span className="font-bold text-emerald-700 dark:text-emerald-400">Frozen Mixed Vegetables</span>{' '}
+                    orders increased by{' '}
+                    <span className="font-bold">22%</span>{' '}
+                    in the last 24h. Suggesting restock.
+                  </p>
+                  <div className="flex items-center gap-3 mt-2">
+                    <span className="text-[10px] text-muted-foreground">Based on 847 orders in the last 24h</span>
+                    <span className="text-muted-foreground/40">·</span>
+                    <button className="text-[10px] font-semibold text-emerald-700 dark:text-emerald-400 hover:underline transition-all">
+                      Restock →
+                    </button>
+                  </div>
+                </div>
+                {/* Badge */}
+                <div className="shrink-0 flex items-center gap-1 px-3 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
+                  <ArrowUpRight size={14} weight="bold" className="text-emerald-600 dark:text-emerald-400" />
+                  <span className="text-sm font-black text-emerald-700 dark:text-emerald-300">+22%</span>
+                </div>
+              </div>
+            </div>
+
           </CardContent>
         </Card>
 
