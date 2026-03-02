@@ -448,7 +448,7 @@ export default function SupplierDashboard() {
           </div>
         </CardHeader>
         <CardContent>
-          <ResponsiveContainer width="100%" height={160}>
+          <ResponsiveContainer width="100%" height={250}>
             <AreaChart data={currentRevenue} margin={{ top: 4, right: 4, left: -10, bottom: 0 }}>
               <defs>
                 <linearGradient id="revGrad" x1="0" y1="0" x2="0" y2="1">

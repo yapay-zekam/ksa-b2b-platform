@@ -78,12 +78,12 @@ export const topSuppliers = [
 
 /* ─── Low stock alerts ─── */
 export const lowStockAlerts = [
-  { product: 'Almarai Fresh Full Fat Milk – 2L',         category: 'Dairy',    stock: 12,  reorderPoint: 50,  lastOrdered: '3 days ago',  severity: 'critical' as const, image: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=56&h=56&fit=crop' },
-  { product: 'Puck Cream Cheese Spreadable – 500g',      category: 'Dairy',    stock: 28,  reorderPoint: 60,  lastOrdered: '5 days ago',  severity: 'low'      as const, image: 'https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=56&h=56&fit=crop' },
-  { product: 'Rana Frozen Chicken Whole – 1.5kg',        category: 'Poultry',  stock: 8,   reorderPoint: 30,  lastOrdered: '2 days ago',  severity: 'critical' as const, image: 'https://images.unsplash.com/photo-1604503468506-a8da13d82791?w=56&h=56&fit=crop' },
-  { product: 'Barakat Frozen Mixed Vegetables – 2.5kg',  category: 'Frozen',   stock: 35,  reorderPoint: 80,  lastOrdered: '7 days ago',  severity: 'low'      as const, image: 'https://images.unsplash.com/photo-1576181256399-834e3ef79b65?w=56&h=56&fit=crop' },
-  { product: 'Saudia Long Life Juice Orange – 1L × 6',   category: 'Beverages',stock: 15,  reorderPoint: 40,  lastOrdered: '4 days ago',  severity: 'medium'   as const, image: 'https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=56&h=56&fit=crop' },
-  { product: 'Nada Long Life UHT Full Fat Milk – 12×1L', category: 'Dairy',    stock: 22,  reorderPoint: 48,  lastOrdered: '6 days ago',  severity: 'medium'   as const, image: 'https://images.unsplash.com/photo-1563636619-e9143da7973b?w=56&h=56&fit=crop' },
+  { product: 'Almarai Fresh Full Fat Milk – 2L',         category: 'Dairy',    stock: 12,  reorderPoint: 50,  lastOrdered: '3 days ago',  severity: 'critical' as const, image: '/product-images/milk-2.png' },
+  { product: 'Puck Cream Cheese Spreadable – 500g',      category: 'Dairy',    stock: 28,  reorderPoint: 60,  lastOrdered: '5 days ago',  severity: 'low'      as const, image: '/product-images/cheese-200g.png' },
+  { product: 'Rana Frozen Chicken Whole – 1.5kg',        category: 'Poultry',  stock: 8,   reorderPoint: 30,  lastOrdered: '2 days ago',  severity: 'critical' as const, image: '/product-images/whole-chicken.png' },
+  { product: 'Barakat Frozen Mixed Vegetables – 2.5kg',  category: 'Frozen',   stock: 35,  reorderPoint: 80,  lastOrdered: '7 days ago',  severity: 'low'      as const, image: '/product-images/frozen-vegtables.png' },
+  { product: 'Saudia Long Life Juice Orange – 1L × 6',   category: 'Beverages',stock: 15,  reorderPoint: 40,  lastOrdered: '4 days ago',  severity: 'medium'   as const, image: '/product-images/orange-juice.png' },
+  { product: 'Nada Long Life UHT Full Fat Milk – 12×1L', category: 'Dairy',    stock: 22,  reorderPoint: 48,  lastOrdered: '6 days ago',  severity: 'medium'   as const, image: '/product-images/milk-nada.png' },
 ];
 
 /* ─── Summary KPIs for different periods ─── */

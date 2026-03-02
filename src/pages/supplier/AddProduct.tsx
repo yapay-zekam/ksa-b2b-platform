@@ -597,7 +597,7 @@ export default function AddProduct() {
                   className="flex gap-4 p-4 rounded-2xl border border-border bg-card hover:shadow-card-hover transition-shadow"
                 >
                   {/* Product image */}
-                  <div className="w-[90px] h-[110px] shrink-0 rounded-xl overflow-hidden bg-muted">
+                  <div className="w-[124px] h-[132px] shrink-0 rounded-xl overflow-hidden bg-muted">
                     <img
                       src={product.image}
                       alt={product.name}

@@ -21,33 +21,33 @@ const PAGE_SIZE = 12;
 const heroBanners = [
   {
     id: 'hero',
-    title: 'We Provide\nBest and Natural',
+    title: 'We Provide Best and Natural',
     subtitle: 'Premium quality products sourced from top-tier Saudi & international suppliers.',
     cta: 'Explore Now',
     bg: 'from-brand-900 via-brand-800 to-brand-700',
     accent: '#FFD680',
-    image: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=900&h=500&fit=crop',
+    image: '/product-images/banner-1.png',
   },
 ];
 
 const sideBanners = [
   {
     id: 's1',
-    title: 'Explore Suptomer',
-    subtitle: 'One step ahead with smart procurement',
+    title: 'Always be',
+    subtitle: 'one step ahead with Suptomer',
     cta: 'Get Started',
     bg: 'from-brand-700 to-brand-900',
     tag: 'Platform',
-    image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=500&h=240&fit=crop',
+    image: '/product-images/banner-2.png',
   },
   {
     id: 's2',
-    title: 'Restock Smarter',
-    subtitle: 'Order smarter — get AI suggestions on your next bulk purchase',
-    cta: 'Try AI Copilot',
+    title: 'Don\'t miss the discounts',
+    subtitle: 'Get the best deals on the beverage category',
+    cta: 'View Discounts',
     bg: 'from-violet-900 to-brand-700',
-    tag: 'AI Feature',
-    image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=500&h=240&fit=crop',
+    tag: 'Discount',
+    image: '/product-images/banner-3.png',
   },
 ];
 
@@ -131,11 +131,11 @@ export default function MerchantProducts() {
             <img
               src={b.image}
               alt=""
-              className="absolute inset-0 w-full h-full object-cover mix-blend-luminosity opacity-20"
+              className="absolute inset-0 w-full h-full object-cover opacity-90"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-brand-900/95 via-brand-800/80 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-brand-800/95 via-brand-800/40 to-transparent" />
 
-            <div className="relative z-10 p-7 max-w-md">
+            <div className="relative z-10 p-8 max-w-md">
               <div className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-gold-400 mb-3 bg-gold-400/10 px-2.5 py-1 rounded-full border border-gold-400/20">
                 <Sparkle size={10} weight="fill" />
                 Premium Quality
@@ -152,15 +152,6 @@ export default function MerchantProducts() {
                 <CaretRight size={14} weight="bold" />
               </button>
             </div>
-
-            <div
-              className="absolute inset-0 opacity-5"
-              style={{
-                backgroundImage:
-                  'linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)',
-                backgroundSize: '40px 40px',
-              }}
-            />
           </div>
         ))}
 
@@ -178,9 +169,9 @@ export default function MerchantProducts() {
               <img
                 src={b.image}
                 alt=""
-                className="absolute inset-0 w-full h-full object-cover mix-blend-luminosity opacity-15"
+                className="absolute inset-0 w-full h-full object-cover opacity-90"
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-r from-brand-800/95 via-brand-700/30 to-transparent" />
 
               <div className="relative z-10 p-4 h-full flex flex-col justify-between">
                 <div>

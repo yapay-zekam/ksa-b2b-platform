@@ -150,18 +150,17 @@ export interface LowStockProduct {
 }
 
 export const lowStockProducts: LowStockProduct[] = [
-  { id: '#UGR001', name: 'Almarai Fresh Milk Full Fat 2.5 L - Sample Long Text', image: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=60&h=60&fit=crop', brand: 'Almarai', categoryPath: 'Dairy >> Milk and Laban',                       stock: 24, minStock: 100 },
-  { id: '#HTD032', name: 'Rabea Black Tea - Express - 100 Tea Bags',              image: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=60&h=60&fit=crop', brand: 'Rabea',   categoryPath: 'Beverages >> Hot Drinks >> Tea and Coffee >> Tea', stock: 33, minStock: 100 },
-  { id: '#RIC243', name: 'White Rice - 1 Kg',                                    image: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=60&h=60&fit=crop', brand: 'Alricei', categoryPath: 'Food >> Rice and Pasta >> Rice',                    stock: 17, minStock: 80  },
-  { id: '#PAS001', name: 'Al-joud Fettuccine - 450 G',                           image: 'https://images.unsplash.com/photo-1551462147-ff29053bfc14?w=60&h=60&fit=crop', brand: 'Al Joud', categoryPath: 'Food >> Rice and Pasta >> Pasta',                   stock: 28, minStock: 80  },
-  { id: '#UGR002', name: 'Rabea Black Tea - Express - 100 Tea Bags',              image: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=60&h=60&fit=crop', brand: 'Rabea',   categoryPath: 'Beverages >> Hot Drinks >> Tea and Coffee >> Tea', stock: 33, minStock: 100 },
-  { id: '#UGR003', name: 'White Rice - 1 Kg',                                    image: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=60&h=60&fit=crop', brand: 'Alricei', categoryPath: 'Food >> Rice and Pasta >> Rice',                    stock: 6,  minStock: 80  },
-  { id: '#UGR004', name: 'Goody Pasta - 500 G',                                  image: 'https://images.unsplash.com/photo-1551462147-ff29053bfc14?w=60&h=60&fit=crop', brand: 'Goody',   categoryPath: 'Food >> Rice and Pasta >> Pasta',                   stock: 25, minStock: 80  },
+  { id: '#UGR001', name: 'Almarai Fresh Milk Full Fat 2.5 L - Sample Long Text', image: '/product-images/milk-2.png', brand: 'Almarai', categoryPath: 'Dairy >> Milk and Laban',                       stock: 62, minStock: 100 },
+  { id: '#HTD032', name: 'Rabea Black Tea - Express - 100 Tea Bags',              image: '/product-images/tea.png', brand: 'Alricei', categoryPath: 'Food >> Rice and Pasta >> Rice',                    stock: 17, minStock: 80  },
+  { id: '#PAS001', name: 'Al-joud Fettuccine - 450 G',                           image: '/product-images/pasta-3.png', brand: 'Al Joud', categoryPath: 'Food >> Rice and Pasta >> Pasta',                   stock: 54, minStock: 80  },
+  { id: '#UGR002', name: 'Rabea Black Tea - Express - 100 Tea Bags',              image: '/product-images/tea.png', brand: 'Rabea',   categoryPath: 'Beverages >> Hot Drinks >> Tea and Coffee >> Tea', stock: 33, minStock: 100 },
+  { id: '#UGR003', name: 'White Rice - 1 Kg',                                    image: '/product-images/pasta-4.png', brand: 'Alricei', categoryPath: 'Food >> Rice and Pasta >> Rice',                    stock: 6,  minStock: 80  },
+  { id: '#UGR004', name: 'Goody Pasta - 500 G',                                  image: '/product-images/pasta-7.png', brand: 'Goody',   categoryPath: 'Food >> Rice and Pasta >> Pasta',                   stock: 25, minStock: 80  },
 ];
 
 /* ─── Never sold products (Monitoring) ─── */
 export const neverSoldProducts: LowStockProduct[] = [
-  { id: '#MMM057', name: 'Juhayna Fresh Milk Full Fat 2.5 L', image: 'https://images.unsplash.com/photo-1563636619-e9143da7973b?w=60&h=60&fit=crop', brand: 'Juhayna', categoryPath: 'Dairy >> Milk and Laban >> Fresh Milk', stock: 500, minStock: 0 },
+  { id: '#MMM057', name: 'Juhayna Fresh Milk Full Fat 2.5 L', image: '/product-images/juhayna-milk-1,5.png', brand: 'Juhayna', categoryPath: 'Dairy >> Milk and Laban >> Fresh Milk', stock: 500, minStock: 0 },
 ];
 
 /* ─── Empty categories (Monitoring) ─── */

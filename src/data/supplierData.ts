@@ -68,14 +68,14 @@ export interface SupplierOrder {
 }
 
 export const recentSupplierOrders: SupplierOrder[] = [
-  { id: '#ORD-8821', product: 'Almarai Fresh Milk Full Fat – 2L', category: 'Dairy', image: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=80&h=80&fit=crop', merchantName: 'Al Noor Cafe', branchName: 'Main Kitchen – Riyadh', merchantLogo: 'AN', merchantColor: '#3D005E', qty: 120, amount: 1200,  status: 'Delivered',  date: '13 Apr 2025', deliveryDays: 'Delivered' },
-  { id: '#ORD-8820', product: 'Saha Lutein Eggs AA – 15 pcs',    category: 'Eggs',  image: 'https://images.unsplash.com/photo-1587486913049-53fc88980cfc?w=80&h=80&fit=crop', merchantName: 'Sultana Kitchen', branchName: 'Branch – Jeddah',         merchantLogo: 'SK', merchantColor: '#C8102E', qty: 200, amount: 5800,  status: 'Processing', date: '13 Apr 2025', deliveryDays: '1–2 Days' },
-  { id: '#ORD-8819', product: 'Golden Chicken Whole – 1.2kg',    category: 'Poultry',image: 'https://images.unsplash.com/photo-1604503468506-a8da13d11d36?w=80&h=80&fit=crop', merchantName: 'Pearl Restaurant', branchName: 'Branch – Al Khobar',    merchantLogo: 'PR', merchantColor: '#006E33', qty: 80,  amount: 9200,  status: 'Shipped',    date: '12 Apr 2025', deliveryDays: 'Same day' },
-  { id: '#ORD-8818', product: 'Puck Cream Cheese – 500g',        category: 'Dairy', image: 'https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=80&h=80&fit=crop', merchantName: 'Bloom Café',      branchName: 'Main Kitchen – Riyadh', merchantLogo: 'BC', merchantColor: '#E8A000', qty: 60,  amount: 1110,  status: 'Pending',    date: '12 Apr 2025', deliveryDays: '2–3 Days' },
-  { id: '#ORD-8817', product: 'Barakat Frozen Vegs – 2.5kg',     category: 'Frozen',image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=80&h=80&fit=crop', merchantName: 'Green Bites',    branchName: 'Branch – Dammam',       merchantLogo: 'GB', merchantColor: '#00873E', qty: 150, amount: 2998,  status: 'Delivered',  date: '11 Apr 2025', deliveryDays: 'Delivered' },
-  { id: '#ORD-8816', product: 'Nada UHT Milk 1L × 12',           category: 'Dairy', image: 'https://images.unsplash.com/photo-1563636619-e9143da7973b?w=80&h=80&fit=crop', merchantName: 'Urban Grill',     branchName: 'Branch – Riyadh North', merchantLogo: 'UG', merchantColor: '#EE3124', qty: 24,  amount: 1080,  status: 'Cancelled',  date: '11 Apr 2025', deliveryDays: '—' },
-  { id: '#ORD-8815', product: 'Aqua Panna Water 12×500ml',       category: 'Beverages',image: 'https://images.unsplash.com/photo-1559839914-17aae19cec71?w=80&h=80&fit=crop', merchantName: 'The Atrium',     branchName: 'Main Kitchen – Riyadh', merchantLogo: 'TA', merchantColor: '#003087', qty: 96,  amount: 2112,  status: 'Delivered',  date: '10 Apr 2025', deliveryDays: 'Delivered' },
-  { id: '#ORD-8814', product: 'Kiri Cheese Squares – 200g',      category: 'Dairy', image: 'https://images.unsplash.com/photo-1552767059-ce182ead6c1b?w=80&h=80&fit=crop', merchantName: 'Café de Medina', branchName: 'Branch – Madinah',       merchantLogo: 'CM', merchantColor: '#006400', qty: 48,  amount: 732,   status: 'Processing', date: '10 Apr 2025', deliveryDays: '1–2 Days' },
+  { id: '#ORD-8821', product: 'Almarai Fresh Milk Full Fat – 2L', category: 'Dairy', image: '/product-images/milk-2.png', merchantName: 'Al Noor Cafe', branchName: 'Main Kitchen – Riyadh', merchantLogo: 'AN', merchantColor: '#3D005E', qty: 120, amount: 1200,  status: 'Delivered',  date: '13 Apr 2025', deliveryDays: 'Delivered' },
+  { id: '#ORD-8820', product: 'Saha Lutein Eggs AA – 15 pcs',    category: 'Eggs',  image: '/product-images/eggs.png', merchantName: 'Sultana Kitchen', branchName: 'Branch – Jeddah',         merchantLogo: 'SK', merchantColor: '#C8102E', qty: 200, amount: 5800,  status: 'Processing', date: '13 Apr 2025', deliveryDays: '1–2 Days' },
+  { id: '#ORD-8819', product: 'Golden Chicken Whole – 1.2kg',    category: 'Poultry',image: '/product-images/whole-chicken.png', merchantName: 'Pearl Restaurant', branchName: 'Branch – Al Khobar',    merchantLogo: 'PR', merchantColor: '#006E33', qty: 80,  amount: 9200,  status: 'Shipped',    date: '12 Apr 2025', deliveryDays: 'Same day' },
+  { id: '#ORD-8818', product: 'Puck Cream Cheese – 500g',        category: 'Dairy', image: '/product-images/puck-cream-cheese.png', merchantName: 'Bloom Café',      branchName: 'Main Kitchen – Riyadh', merchantLogo: 'BC', merchantColor: '#E8A000', qty: 60,  amount: 1110,  status: 'Pending',    date: '12 Apr 2025', deliveryDays: '2–3 Days' },
+  { id: '#ORD-8817', product: 'Barakat Frozen Vegs – 2.5kg',     category: 'Frozen',image: '/product-images/frozen-vegtables.png', merchantName: 'Green Bites',    branchName: 'Branch – Dammam',       merchantLogo: 'GB', merchantColor: '#00873E', qty: 150, amount: 2998,  status: 'Delivered',  date: '11 Apr 2025', deliveryDays: 'Delivered' },
+  { id: '#ORD-8816', product: 'Nada UHT Milk 1L × 12',           category: 'Dairy', image: '/product-images/milk-nada.png', merchantName: 'Urban Grill',     branchName: 'Branch – Riyadh North', merchantLogo: 'UG', merchantColor: '#EE3124', qty: 24,  amount: 1080,  status: 'Cancelled',  date: '11 Apr 2025', deliveryDays: '—' },
+  { id: '#ORD-8815', product: 'Aqua Panna Water 12×500ml',       category: 'Beverages',image: '/product-images/water-6.png', merchantName: 'The Atrium',     branchName: 'Main Kitchen – Riyadh', merchantLogo: 'TA', merchantColor: '#003087', qty: 96,  amount: 2112,  status: 'Delivered',  date: '10 Apr 2025', deliveryDays: 'Delivered' },
+  { id: '#ORD-8814', product: 'Kiri Cheese Squares – 200g',      category: 'Dairy', image: '/product-images/cheese-200g.png', merchantName: 'Café de Medina', branchName: 'Branch – Madinah',       merchantLogo: 'CM', merchantColor: '#006400', qty: 48,  amount: 732,   status: 'Processing', date: '10 Apr 2025', deliveryDays: '1–2 Days' },
 ];
 
 /* ─── Top merchants ─── */
@@ -94,7 +94,7 @@ export const topProducts = [
   { rank: 3, name: 'Saha Lutein Eggs 15pcs',   category: 'Eggs',     unitsSold: 5380, revenue: 107600, trend: +15.6 },
   { rank: 4, name: 'Puck Cream Cheese 500g',   category: 'Dairy',    unitsSold: 4210, revenue: 77885,  trend: +4.2  },
   { rank: 5, name: 'Barakat Frozen Vegs 2.5kg',category: 'Frozen',   unitsSold: 3640, revenue: 72732,  trend: -1.8  },
-  { rank: 6, name: 'Nada UHT Milk 12×1L',      category: 'Dairy',    unitsSold: 2890, revenue: 130050, trend: +7.9  },
+  
 ];
 
 /* ─── Inventory alerts ─── */
@@ -102,6 +102,7 @@ export const inventoryAlerts = [
   { product: 'Almarai Fresh Milk 2L',    stock: 340,  minStock: 500,  severity: 'low'      as const },
   { product: 'Barakat Frozen Vegs 2.5kg',stock: 82,   minStock: 200,  severity: 'medium'   as const },
   { product: 'Saha Lutein Eggs 15pcs',   stock: 24,   minStock: 150,  severity: 'critical' as const },
+  { product: 'Nada Fresh Milk 1L',    stock: 440,  minStock: 500,  severity: 'low'      as const },
 ];
 
 /* ─── Order status by period (for donut chart) ─── */

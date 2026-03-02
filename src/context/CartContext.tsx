@@ -42,7 +42,7 @@ const SEED_ITEMS: CartItem[] = [
   {
     productId: '1',
     productTitle: 'Almarai Fresh Milk Full Fat – 2L',
-    productImage: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=200&h=200&fit=crop',
+    productImage: '/product-images/milk-2.png',
     supplierId: 'so1',
     supplierName: 'Miyad International Food Industry Company',
     supplierLogo: 'MI',
@@ -57,7 +57,7 @@ const SEED_ITEMS: CartItem[] = [
   {
     productId: '11-b',
     productTitle: 'Saha Lutein Eggs Grade AA – 15 Pieces',
-    productImage: 'https://images.unsplash.com/photo-1587486913049-53fc88980cfc?w=200&h=200&fit=crop',
+    productImage: '/product-images/eggs.png',
     supplierId: 'so1',
     supplierName: 'Miyad International Food Industry Company',
     supplierLogo: 'MI',
@@ -72,7 +72,7 @@ const SEED_ITEMS: CartItem[] = [
   {
     productId: '11-c',
     productTitle: 'Golden Chicken Whole Fresh Big Size – 1200G',
-    productImage: 'https://images.unsplash.com/photo-1604503468506-a8da13d11d36?w=200&h=200&fit=crop',
+    productImage: '/product-images/whole-chicken.png',
     supplierId: 'so1',
     supplierName: 'Miyad International Food Industry Company',
     supplierLogo: 'MI',
@@ -85,7 +85,7 @@ const SEED_ITEMS: CartItem[] = [
   {
     productId: '3',
     productTitle: 'Almarai Cheese Slices Cheddar – 40G',
-    productImage: 'https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=200&h=200&fit=crop',
+    productImage: '/product-images/cheese-200g.png',
     supplierId: 'so-hadi',
     supplierName: 'Hadi Food and Drink Trading Co.',
     supplierLogo: 'HF',

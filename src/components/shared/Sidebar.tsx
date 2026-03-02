@@ -196,15 +196,7 @@ export function Sidebar({ role, collapsed, onToggle }: SidebarProps) {
       <div className="flex items-center h-16 px-4 border-b border-white/10 shrink-0">
         {!collapsed && (
           <div className="flex items-center gap-2.5 flex-1 min-w-0 overflow-hidden">
-            <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
-              <rect width="30" height="30" rx="9" fill="white" fillOpacity="0.15"/>
-              <circle cx="15" cy="15" r="5" stroke="white" strokeWidth="2"/>
-              <path d="M15 5V9M15 21V25M5 15H9M21 15H25" stroke="white" strokeOpacity="0.5" strokeWidth="1.5" strokeLinecap="round"/>
-              <circle cx="15" cy="15" r="2" fill="white"/>
-            </svg>
-            <span className="text-white font-bold text-base tracking-tight whitespace-nowrap">
-              Logo
-            </span>
+            <img src="/logo-white.png" alt="Logo" style={{ width: '120px', height: '28px' }} className="object-contain" />
           </div>
         )}
         <button
