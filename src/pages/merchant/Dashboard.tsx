@@ -23,7 +23,6 @@ import {
   Funnel,
   MagnifyingGlass,
   Eye,
-  Star,
   WarningCircle,
   Lightning,
   ArrowUpRight,
@@ -385,11 +384,6 @@ export default function MerchantDashboard() {
           <CardHeader className="pb-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                {/* Glowing AI icon */}
-                <div className="relative w-10 h-10 rounded-2xl bg-brand-700 flex items-center justify-center shrink-0 shadow-lg">
-                  <Star size={20} weight="fill" className="text-gold-300" />
-                  <span className="absolute inset-0 rounded-2xl bg-brand-700 animate-ping opacity-20 pointer-events-none" />
-                </div>
                 <div>
                   <CardTitle>AI Predictive Insights</CardTitle>
                   <p className="text-xs text-muted-foreground mt-0.5">Smart alerts powered by pattern analysis</p>
