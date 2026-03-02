@@ -8,7 +8,7 @@ import {
 import {
   CurrencyDollar, ShoppingCart, Clock, ArrowUUpLeft,
   TrendUp, TrendDown, FilePdf, FileXls, CalendarBlank,
-  Pencil, PlusCircle, Warning, SealWarning,
+  Pencil, PlusCircle, SealWarning,
   MapPin, Buildings,
 } from '@phosphor-icons/react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
