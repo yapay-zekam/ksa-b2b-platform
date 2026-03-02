@@ -232,7 +232,7 @@ function ProfitableProductRich() {
       <div className="flex gap-3 p-3">
         <div className="w-16 h-16 rounded-xl overflow-hidden bg-white shrink-0 shadow-sm">
           <img
-            src="https://images.unsplash.com/photo-1604503468506-a8da13d11d36?w=200&h=200&fit=crop"
+            src="/product-images/whole-chicken.png"
             alt="Golden Chicken"
             className="w-full h-full object-cover"
           />
