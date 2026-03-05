@@ -62,11 +62,13 @@ function StarRow({ rating, size = 14 }: { rating: number; size?: number }) {
 /* ─────────── Supplier offer row ─────────── */
 function SupplierRow({
   offer,
+  displayPrice,
   selected,
   onSelect,
   onAddToCart,
 }: {
   offer: SupplierOffer;
+  displayPrice: number;
   selected: boolean;
   onSelect: () => void;
   onAddToCart: () => void;
@@ -122,13 +124,13 @@ function SupplierRow({
         <div className="text-right shrink-0">
           <div className="flex items-baseline gap-1.5 justify-end">
             <span className="text-base font-bold text-foreground">
-              {offer.price.toFixed(2)}
+              {displayPrice.toFixed(2)}
             </span>
             <span className="text-xs text-muted-foreground font-medium">SAR</span>
           </div>
           {offer.originalPrice && (
             <span className="text-[10px] text-muted-foreground line-through block">
-              {offer.originalPrice.toFixed(2)} SAR
+              {(offer.originalPrice * (displayPrice / offer.price)).toFixed(2)} SAR
             </span>
           )}
         </div>
@@ -156,7 +158,7 @@ function SupplierRow({
         className="w-full py-2 rounded-xl bg-brand-700 text-white text-xs font-semibold hover:bg-brand-800 transition-colors flex items-center justify-center gap-2"
       >
         <ShoppingCartSimple size={13} weight="bold" />
-        Add to Cart — {offer.price.toFixed(2)} SAR
+        Add to Cart — {displayPrice.toFixed(2)} SAR
       </button>
     </div>
   );
@@ -202,8 +204,13 @@ export default function ProductDetail() {
     );
   }
 
-  const activeSupplier = detail.supplierOffers[selectedSupplier];
-  const activeVariant = detail.variants[selectedVariant];
+  const activeSupplier    = detail.supplierOffers[selectedSupplier];
+  const activeVariant     = detail.variants[selectedVariant];
+  /* Scale supplier prices by the ratio of selected variant vs base variant */
+  const variantMultiplier = activeVariant.price / detail.variants[0].price;
+  const adjustedPrice     = (offer: typeof detail.supplierOffers[number]) =>
+    offer.price * variantMultiplier;
+
   const relatedProducts = products
     .filter((p) => p.category === detail.category && p.id !== detail.id)
     .slice(0, 4);
@@ -218,8 +225,8 @@ export default function ProductDetail() {
       supplierName:  offer.name,
       supplierLogo:  offer.logo,
       supplierColor: offer.color,
-      price:         offer.price,
-      originalPrice: offer.originalPrice,
+      price:         adjustedPrice(offer),
+      originalPrice: offer.originalPrice ? offer.originalPrice * variantMultiplier : undefined,
       unit:          activeVariant.label,
       deliveryDays:  offer.deliveryDays,
       quantity,
@@ -465,33 +472,6 @@ export default function ProductDetail() {
             </div>
           </div>
 
-          {/* Quantity selector */}
-          <div>
-            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2.5">
-              Quantity
-            </h3>
-            <div className="flex items-center gap-4">
-              <div className="flex items-center border border-border rounded-xl overflow-hidden">
-                <button
-                  onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                  className="w-9 h-9 flex items-center justify-center hover:bg-muted transition-colors text-muted-foreground hover:text-foreground"
-                >
-                  <Minus size={14} weight="bold" />
-                </button>
-                <span className="w-12 text-center text-sm font-semibold text-foreground">{quantity}</span>
-                <button
-                  onClick={() => setQuantity((q) => q + 1)}
-                  className="w-9 h-9 flex items-center justify-center hover:bg-muted transition-colors text-muted-foreground hover:text-foreground"
-                >
-                  <Plus size={14} weight="bold" />
-                </button>
-              </div>
-              <span className="text-xs text-muted-foreground">
-                Min. order: {activeSupplier?.minOrder ?? 1} units from selected supplier
-              </span>
-            </div>
-          </div>
-
           {/* Other Suppliers (compact list) */}
           <div>
             <div className="flex items-center justify-between mb-3">
@@ -537,7 +517,7 @@ export default function ProductDetail() {
                       </div>
                     </div>
                     <div className="text-right shrink-0">
-                      <span className="text-sm font-bold text-foreground">{offer.price.toFixed(2)}</span>
+                      <span className="text-sm font-bold text-foreground">{adjustedPrice(offer).toFixed(2)}</span>
                       <span className="text-[10px] text-muted-foreground ml-0.5">SAR</span>
                       {offer.isBestPrice && (
                         <span className="block text-[9px] font-bold text-gold-500">BEST PRICE</span>
@@ -593,12 +573,12 @@ export default function ProductDetail() {
               <p className="text-[10px] text-muted-foreground uppercase tracking-wider mb-1">Price</p>
               <div className="flex items-baseline gap-3">
                 <span className="text-3xl font-extrabold text-foreground">
-                  {activeSupplier?.price.toFixed(2)}
+                  {activeSupplier ? adjustedPrice(activeSupplier).toFixed(2) : '—'}
                 </span>
                 <span className="text-base font-semibold text-muted-foreground">SAR</span>
                 {activeSupplier?.originalPrice && (
                   <span className="text-sm text-muted-foreground line-through">
-                    {activeSupplier.originalPrice.toFixed(2)} SAR
+                    {(activeSupplier.originalPrice * variantMultiplier).toFixed(2)} SAR
                   </span>
                 )}
                 {activeSupplier?.isBestPrice && (
@@ -650,7 +630,7 @@ export default function ProductDetail() {
               <div className="flex items-center justify-between py-2 px-3 rounded-xl bg-muted/60">
                 <span className="text-xs text-muted-foreground">Total estimate</span>
                 <span className="text-sm font-bold text-foreground">
-                  {((activeSupplier?.price ?? 0) * quantity).toFixed(2)} SAR
+                  {(activeSupplier ? adjustedPrice(activeSupplier) * quantity : 0).toFixed(2)} SAR
                 </span>
               </div>
             </div>
@@ -799,6 +779,7 @@ export default function ProductDetail() {
                 <SupplierRow
                   key={offer.id}
                   offer={offer}
+                  displayPrice={adjustedPrice(offer)}
                   selected={selectedSupplier === i}
                   onSelect={() => setSelectedSupplier(i)}
                   onAddToCart={() => handleAddToCart(offer)}

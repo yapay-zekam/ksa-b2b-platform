@@ -7,6 +7,7 @@ import {
   ShoppingCart,
   CaretDown,
   Buildings,
+  List,
 } from '@phosphor-icons/react';
 import { cn } from '@/lib/utils';
 import { useTheme } from '@/hooks/useTheme';
@@ -18,6 +19,7 @@ interface TopbarProps {
   userName?: string;
   businessName?: string;
   onOpenAi?: () => void;
+  onMobileMenuOpen?: () => void;
 }
 
 export function Topbar({
@@ -25,6 +27,7 @@ export function Topbar({
   role = 'merchant',
   userName = 'Ali',
   businessName = 'Al Noor Cafe',
+  onMobileMenuOpen,
 }: TopbarProps) {
   const { theme, toggleTheme } = useTheme();
   const { totalItems, openCart } = useCart();
@@ -35,11 +38,23 @@ export function Topbar({
   return (
     <header
       className={cn(
-        'fixed top-0 right-0 z-30 h-16 flex items-center gap-3 px-5',
+        'fixed top-0 right-0 z-30 h-16 flex items-center gap-3 px-4 sm:px-5',
         'bg-card border-b border-border transition-all duration-300',
-        sidebarCollapsed ? 'left-[68px]' : 'left-[220px]'
+        /* Mobile: span full width (sidebar overlays, no left offset needed) */
+        'left-0',
+        /* Desktop: shift right to make room for the sidebar */
+        sidebarCollapsed ? 'lg:left-[68px]' : 'lg:left-[220px]'
       )}
     >
+      {/* ── Mobile hamburger ── */}
+      <button
+        onClick={onMobileMenuOpen}
+        className="lg:hidden p-2 -ml-1 rounded-xl hover:bg-muted text-muted-foreground hover:text-foreground transition-colors shrink-0"
+        aria-label="Open menu"
+      >
+        <List size={20} weight="light" />
+      </button>
+
       {/* Greeting */}
       <div className="flex-1 min-w-0">
         <h2 className="text-sm font-semibold text-foreground truncate">
