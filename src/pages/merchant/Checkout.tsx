@@ -123,6 +123,11 @@ export default function CheckoutPage() {
 
   const groups = groupBySupplier(items);
 
+  const goToStep = (s: Step) => {
+    setStep(s);
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  };
+
   const handlePlaceOrder = () => {
     if (processing || success) return;
     setProcessing(true);
@@ -240,7 +245,7 @@ export default function CheckoutPage() {
               ))}
 
               <button
-                onClick={() => setStep(2)}
+                onClick={() => goToStep(2)}
                 disabled={!selectedAddress || !selectedContact}
                 className="w-full py-3 rounded-xl bg-brand-700 text-white font-bold text-sm hover:bg-brand-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
               >
@@ -483,7 +488,7 @@ export default function CheckoutPage() {
               <div className="space-y-3">
                 <div className="flex items-center gap-2 mb-1">
                   <button
-                    onClick={() => setStep(1)}
+                    onClick={() => goToStep(1)}
                     className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
                   >
                     <ArrowLeft size={14} weight="light" /> Back to Review

@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { Topbar } from './Topbar';
 import { CartDrawer } from './CartDrawer';
 import { AiCopilot, AiFloatingButton } from './AiCopilot';
+import { useCart } from '@/context/CartContext';
 import { cn } from '@/lib/utils';
 
 interface LayoutProps {
@@ -14,6 +15,11 @@ export function Layout({ role }: LayoutProps) {
   const [collapsed,   setCollapsed]   = useState(false);
   const [aiOpen,      setAiOpen]      = useState(false);
   const [mobileOpen,  setMobileOpen]  = useState(false);
+
+  const { isOpen: cartOpen } = useCart();
+  const { pathname } = useLocation();
+  /* Hide the AI floating button while cart drawer is open or user is on checkout */
+  const hideAiButton = cartOpen || pathname === '/merchant/checkout';
 
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
@@ -40,8 +46,8 @@ export function Layout({ role }: LayoutProps) {
       {/* AI Copilot panel */}
       <AiCopilot isOpen={aiOpen} onClose={() => setAiOpen(false)} />
 
-      {/* Floating AI trigger button */}
-      {!aiOpen && <AiFloatingButton onClick={() => setAiOpen(true)} />}
+      {/* Floating AI trigger button — hidden when cart is open or on checkout */}
+      {!aiOpen && !hideAiButton && <AiFloatingButton onClick={() => setAiOpen(true)} />}
 
       <main
         className={cn(

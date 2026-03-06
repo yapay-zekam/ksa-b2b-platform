@@ -417,11 +417,13 @@ export default function AddProduct() {
       <div className="space-y-6">
 
         {/* ─── Search Bar (always on top) ─── */}
+        {/* Mobile: input + Search button joined (gap-0), Scan gets ml-2 spacer */}
+        {/* Desktop: all elements have gap-3 as normal */}
         <div className={cn(
-          'flex items-stretch gap-3 transition-all',
+          'flex items-stretch gap-0 sm:gap-3 w-full transition-all',
           !searched && 'hidden'
         )}>
-          <div className="flex-1 flex items-center gap-3 px-4 py-3 rounded-2xl border border-border bg-card shadow-sm">
+          <div className="flex-1 flex items-center gap-3 px-4 py-3 rounded-l-2xl rounded-r-none sm:rounded-2xl border border-r-0 sm:border-r border-border bg-card shadow-sm">
             <MagnifyingGlass size={18} weight="light" className="text-muted-foreground shrink-0" />
             <input
               ref={inputRef}
@@ -429,7 +431,7 @@ export default function AddProduct() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-              placeholder="Search for product name or barcode"
+              placeholder="Product name or barcode"
               className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground/60 outline-none"
             />
             {query && (
@@ -440,13 +442,13 @@ export default function AddProduct() {
           </div>
           <button
             onClick={handleSearch}
-            className="px-6 py-3 rounded-2xl bg-brand-700 hover:bg-brand-800 text-white text-sm font-semibold transition-colors shadow-sm"
+            className="px-6 py-3 rounded-r-2xl rounded-l-none sm:rounded-2xl bg-brand-700 hover:bg-brand-800 text-white text-sm font-semibold transition-colors shadow-sm"
           >
             Search
           </button>
           <button
             onClick={() => {/* simulate barcode scan */}}
-            className="px-4 py-3 rounded-2xl border border-border bg-card hover:bg-muted text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2 text-sm"
+            className="ml-2 sm:ml-0 px-4 py-3 rounded-2xl border border-border bg-card hover:bg-muted text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2 text-sm"
           >
             <Barcode size={18} weight="light" />
             <span className="hidden sm:inline">Scan</span>
@@ -481,21 +483,21 @@ export default function AddProduct() {
                   </p>
 
                   {/* Search bar inside hero */}
-                  <div className="mt-7 flex items-stretch gap-3 max-w-xl">
-                    <div className="flex-1 flex items-center gap-3 px-4 py-3.5 rounded-2xl bg-white shadow-sm">
+                  <div className="mt-7 flex items-stretch gap-0 sm:gap-3 w-full max-w-xl">
+                    <div className="flex-1 flex items-center gap-3 px-4 py-3.5 rounded-l-2xl rounded-r-none sm:rounded-2xl bg-white shadow-sm">
                       <MagnifyingGlass size={18} weight="light" className="text-gray-400 shrink-0" />
                       <input
                         type="text"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                         onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                        placeholder="Search for product name or barcode"
+                        placeholder="Product name or barcode"
                         className="flex-1 text-sm text-gray-800 placeholder:text-gray-400 outline-none bg-transparent"
                       />
                     </div>
                     <button
                       onClick={handleSearch}
-                      className="px-6 rounded-2xl bg-brand-700 hover:bg-brand-800 text-white text-sm font-bold transition-colors shadow-sm border-2 border-white/20"
+                      className="px-6 rounded-r-2xl rounded-l-none sm:rounded-2xl bg-brand-700 hover:bg-brand-800 text-white text-sm font-bold transition-colors shadow-sm border-2 border-white/20"
                     >
                       Search
                     </button>
@@ -685,7 +687,9 @@ export default function AddProduct() {
             </button>
           </div>
 
-          <div className="rounded-2xl border border-border overflow-hidden">
+          {/* overflow-x-auto wrapper allows horizontal scrolling on mobile */}
+          <div className="overflow-x-auto">
+          <div className="rounded-2xl border border-border overflow-hidden min-w-[720px] sm:min-w-0">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border bg-muted/30">
@@ -782,6 +786,7 @@ export default function AddProduct() {
               </tbody>
             </table>
           </div>
+          </div>{/* end overflow-x-auto */}
         </div>
       </div>
     </>

@@ -181,33 +181,40 @@ export default function MerchantReports() {
       {/* ─── TOP: Controls ─── */}
       <div className="flex flex-wrap items-center justify-between gap-3">
 
-        {/* LEFT: "Showing data for" + Branch dropdown */}
-        <div className="flex items-center gap-2.5">
-          <span className="text-xs text-muted-foreground hidden sm:block whitespace-nowrap">
-            Showing data for
-          </span>
-          <div className="relative">
-            <select
-              value={branch}
-              onChange={(e) => setBranch(e.target.value)}
-              className="appearance-none pl-8 pr-7 py-2 rounded-xl border border-border bg-card text-xs font-semibold text-foreground outline-none hover:border-brand-700/40 transition-colors cursor-pointer"
-            >
-              {BRANCHES.map((b) => <option key={b}>{b}</option>)}
-            </select>
-            <Buildings size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" weight="light" />
-            <CaretRight size={11} className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none rotate-90" />
+        {/* LEFT: Branch dropdown + Export buttons (mobile only, right-aligned) */}
+        <div className="flex items-center justify-between w-full sm:w-auto gap-2.5">
+          <div className="flex items-center gap-2.5">
+            <span className="text-xs text-muted-foreground hidden sm:block whitespace-nowrap">
+              Showing data for
+            </span>
+            <div className="relative">
+              <select
+                value={branch}
+                onChange={(e) => setBranch(e.target.value)}
+                className="appearance-none pl-8 pr-7 py-2 rounded-xl border border-border bg-card text-xs font-semibold text-foreground outline-none hover:border-brand-700/40 transition-colors cursor-pointer"
+              >
+                {BRANCHES.map((b) => <option key={b}>{b}</option>)}
+              </select>
+              <Buildings size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" weight="light" />
+              <CaretRight size={11} className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none rotate-90" />
+            </div>
+          </div>
+          {/* Export buttons — only on mobile (desktop version is in the period row) */}
+          <div className="sm:hidden">
+            <ExportButtons />
           </div>
         </div>
 
-        {/* RIGHT: Period buttons + Date range + Export */}
-        <div className="flex items-center gap-2 flex-wrap">
-          <div className="flex items-center bg-muted rounded-xl p-0.5 gap-0.5">
+        {/* RIGHT: Period buttons + Date range + Export — always same row */}
+        <div className="flex items-center justify-between gap-2 overflow-x-auto scrollbar-none w-full sm:w-auto">
+          {/* Period buttons */}
+          <div className="flex items-center bg-muted rounded-xl p-0.5 gap-0.5 shrink-0">
             {(['Today', 'Week', 'Month', 'Year'] as Period[]).map((p) => (
               <button
                 key={p}
                 onClick={() => setPeriod(p)}
                 className={cn(
-                  'px-4 py-2 rounded-lg text-xs font-semibold transition-all',
+                  'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap',
                   period === p
                     ? 'bg-brand-700 text-white shadow-sm'
                     : 'text-muted-foreground hover:text-foreground'
@@ -218,31 +225,33 @@ export default function MerchantReports() {
             ))}
           </div>
 
-          {/* Date range */}
-          <div className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-border bg-card text-xs text-muted-foreground">
-            <CalendarBlank size={13} weight="light" />
-            <span className="font-medium">Start</span>
+          {/* Date range — unified pill */}
+          <div className="flex items-center gap-1.5 px-2.5 py-2 rounded-xl border border-border bg-card text-xs text-muted-foreground shrink-0">
+            <CalendarBlank size={13} weight="light" className="text-brand-700 dark:text-brand-300 shrink-0" />
             <input
               type="text"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
-              className="bg-transparent text-foreground font-semibold w-20 outline-none text-center"
+              className="bg-transparent text-foreground font-semibold w-[78px] outline-none text-center text-[11px]"
             />
-            <span className="font-medium">End</span>
+            <span className="text-muted-foreground">–</span>
             <input
               type="text"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
-              className="bg-transparent text-foreground font-semibold w-20 outline-none text-center"
+              className="bg-transparent text-foreground font-semibold w-[78px] outline-none text-center text-[11px]"
             />
           </div>
 
-          <ExportButtons />
+          {/* Export buttons — only on desktop (mobile version is in the branch row) */}
+          <div className="hidden sm:block shrink-0">
+            <ExportButtons />
+          </div>
         </div>
       </div>
 
       {/* ─── KPI CARDS ─── */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <KpiCard
           title="Total Spending"
           value={`${(kpi.spending / 1000).toFixed(1)}K SAR`}
@@ -355,7 +364,7 @@ export default function MerchantReports() {
                     ))}
                   </Pie>
                   <Tooltip
-                    formatter={(value: number | string) => [`${Number(value).toLocaleString('en')} SAR`, 'Spend']}
+                    formatter={(value: number | string | undefined) => [`${Number(value ?? 0).toLocaleString('en')} SAR`, 'Spend']}
                     contentStyle={{ background: 'hsl(var(--card))', border: '1px solid hsl(var(--border))', borderRadius: '12px', fontSize: '11px' }}
                   />
                 </PieChart>
@@ -382,30 +391,34 @@ export default function MerchantReports() {
         <CardHeader>
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <CardTitle>Statistics</CardTitle>
+            {/* Dropdowns + Export — dropdowns always side by side, Export may wrap */}
             <div className="flex items-center gap-2 flex-wrap">
-              {/* Time period — controls table only, not charts */}
-              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-border bg-muted/40 text-xs text-muted-foreground">
-                <span className="font-medium">Time Period</span>
-                <select
-                  value={tableGranularity}
-                  onChange={(e) => setTableGranularity(e.target.value as TableGranularity)}
-                  className="bg-transparent text-foreground font-semibold outline-none cursor-pointer"
-                >
-                  <option>Daily</option>
-                  <option>Weekly</option>
-                  <option>Monthly</option>
-                </select>
-              </div>
-              {/* Supplier */}
-              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-border bg-muted/40 text-xs text-muted-foreground">
-                <span className="font-medium">Supplier</span>
-                <select
-                  value={supplier}
-                  onChange={(e) => setSupplier(e.target.value)}
-                  className="bg-transparent text-foreground font-semibold outline-none cursor-pointer max-w-[110px] truncate"
-                >
-                  {SUPPLIERS_FILTER.map((s) => <option key={s}>{s}</option>)}
-                </select>
+              {/* Time Period + Supplier always in same row */}
+              <div className="flex items-center gap-2">
+                {/* Time period — controls table only, not charts */}
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-border bg-muted/40 text-xs text-muted-foreground">
+                  <span className="font-medium">Time Period</span>
+                  <select
+                    value={tableGranularity}
+                    onChange={(e) => setTableGranularity(e.target.value as TableGranularity)}
+                    className="bg-transparent text-foreground font-semibold outline-none cursor-pointer"
+                  >
+                    <option>Daily</option>
+                    <option>Weekly</option>
+                    <option>Monthly</option>
+                  </select>
+                </div>
+                {/* Supplier — label hidden on mobile to save space */}
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-border bg-muted/40 text-xs text-muted-foreground">
+                  <span className="font-medium hidden sm:inline">Supplier</span>
+                  <select
+                    value={supplier}
+                    onChange={(e) => setSupplier(e.target.value)}
+                    className="bg-transparent text-foreground font-semibold outline-none cursor-pointer max-w-[100px] sm:max-w-[110px] truncate"
+                  >
+                    {SUPPLIERS_FILTER.map((s) => <option key={s}>{s}</option>)}
+                  </select>
+                </div>
               </div>
               <ExportButtons />
             </div>
@@ -506,7 +519,7 @@ export default function MerchantReports() {
                 width={78}
               />
               <Tooltip
-                formatter={(value: number | string) => [`${Number(value).toLocaleString('en')} SAR`, 'Total Spend']}
+                formatter={(value: number | string | undefined) => [`${Number(value ?? 0).toLocaleString('en')} SAR`, 'Total Spend']}
                 contentStyle={{ background: 'hsl(var(--card))', border: '1px solid hsl(var(--border))', borderRadius: '12px', fontSize: '11px' }}
               />
               <Bar dataKey="spend" radius={[0, 6, 6, 0]}>
@@ -634,22 +647,24 @@ export default function MerchantReports() {
                       )}
                     </div>
 
-                    <div className="flex-1 min-w-0">
+                    {/* Description — ~16% narrower on mobile to give badge more room */}
+                    <div className="flex-1 min-w-0 max-w-[54%] sm:max-w-none">
                       <p className="text-xs font-semibold text-foreground truncate">{alert.product}</p>
-                      <p className="text-[10px] text-muted-foreground mt-0.5">
+                      <p className="text-[10px] text-muted-foreground mt-0.5 line-clamp-1">
                         {alert.category} · Last ordered {alert.lastOrdered}
                       </p>
                     </div>
 
-                    <div className="text-right shrink-0">
+                    {/* Badge/Status — ~16% wider on mobile to prevent wrapping */}
+                    <div className="text-right shrink-0 min-w-[5.5rem] sm:min-w-0">
                       <span className={cn(
-                        'text-xs font-bold',
+                        'text-xs font-bold whitespace-nowrap',
                         alert.severity === 'critical' ? 'text-brand-700 dark:text-brand-300' :
                         alert.severity === 'medium'   ? 'text-purple-600 dark:text-purple-400' : 'text-gold-500'
                       )}>
                         {alert.stock} units
                       </span>
-                      <p className="text-[9px] text-muted-foreground">of {alert.reorderPoint} min</p>
+                      <p className="text-[9px] text-muted-foreground whitespace-nowrap">of {alert.reorderPoint} min</p>
                     </div>
                   </div>
 
@@ -709,7 +724,7 @@ export default function MerchantReports() {
                 tickFormatter={(v) => `${(v / 1000).toFixed(0)}K`}
               />
               <Tooltip
-                formatter={(value: number | string) => [`${Number(value).toLocaleString('en')} SAR`, 'Spend']}
+                formatter={(value: number | string | undefined) => [`${Number(value ?? 0).toLocaleString('en')} SAR`, 'Spend']}
                 contentStyle={{ background: 'hsl(var(--card))', border: '1px solid hsl(var(--border))', borderRadius: '12px', fontSize: '11px' }}
               />
               <Bar dataKey="value" radius={[6, 6, 0, 0]}>

@@ -185,9 +185,10 @@ export default function SupplierReports() {
           <p className="text-xs text-muted-foreground mt-0.5">Sales performance, inventory health, and merchant insights</p>
         </div>
 
-        <div className="flex items-center gap-2 flex-wrap">
+        {/* Period + Date — always same row, scrollable on narrow screens */}
+        <div className="flex items-center justify-between gap-2 overflow-x-auto scrollbar-none w-full sm:w-auto">
           {/* Period buttons */}
-          <div className="flex items-center bg-muted rounded-xl p-0.5 gap-0.5">
+          <div className="flex items-center bg-muted rounded-xl p-0.5 gap-0.5 shrink-0">
             {(['Today', 'Week', 'Month', 'Year'] as SupplierPeriod[]).map((p) => (
               <button
                 key={p}
@@ -202,34 +203,28 @@ export default function SupplierReports() {
             ))}
           </div>
 
-          {/* Date range */}
-          <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <div className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-border bg-card">
-              <span className="text-[10px] font-medium text-muted-foreground">Start</span>
-              <input
-                type="text"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
-                className="w-20 bg-transparent outline-none text-[11px] text-foreground font-medium"
-              />
-              <CalendarBlank size={13} weight="light" />
-            </div>
-            <div className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-border bg-card">
-              <span className="text-[10px] font-medium text-muted-foreground">End</span>
-              <input
-                type="text"
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
-                className="w-20 bg-transparent outline-none text-[11px] text-foreground font-medium"
-              />
-              <CalendarBlank size={13} weight="light" />
-            </div>
+          {/* Date range — unified pill */}
+          <div className="flex items-center gap-1.5 px-2.5 py-2 rounded-xl border border-border bg-card text-xs text-muted-foreground shrink-0">
+            <CalendarBlank size={13} weight="light" className="text-brand-700 dark:text-brand-300 shrink-0" />
+            <input
+              type="text"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              className="w-[78px] bg-transparent text-foreground font-semibold outline-none text-center text-[11px]"
+            />
+            <span className="text-muted-foreground">–</span>
+            <input
+              type="text"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              className="w-[78px] bg-transparent text-foreground font-semibold outline-none text-center text-[11px]"
+            />
           </div>
         </div>
       </div>
 
       {/* ─── KPI Cards ─── */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <KpiCard title="Total Revenue"          value={`${(kpi.revenue / 1000).toFixed(0)}K SAR`}  sub={kpi.revenue.toLocaleString('en') + ' SAR'} change={kpi.revChange}  icon={CurrencyDollar} accent />
         <KpiCard title="Avg Order Value"         value={`${kpi.avgOrder.toFixed(2)} SAR`}           sub="Per merchant order"                         change={kpi.avgChange}  icon={ShoppingCart} />
         <KpiCard title="Pending Orders"          value={kpi.pending.toString()}                      sub="Awaiting dispatch"                           change={kpi.pendChange} icon={Clock} />

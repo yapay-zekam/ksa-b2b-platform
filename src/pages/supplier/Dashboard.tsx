@@ -185,15 +185,16 @@ export default function SupplierDashboard() {
     <div className="space-y-6">
 
       {/* ─── PAGE HEADER ─── */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      {/* Always a single row: period buttons left, date picker right — scrollable on narrow screens */}
+      <div className="flex flex-row items-center justify-between gap-2 overflow-x-auto scrollbar-none">
         {/* Left: Period buttons */}
-        <div className="flex items-center bg-muted rounded-xl p-0.5 gap-0.5">
+        <div className="flex items-center bg-muted rounded-xl p-0.5 gap-0.5 shrink-0">
           {(['Today', 'Week', 'Month', 'Year'] as Period[]).map((p) => (
             <button
               key={p}
               onClick={() => setPeriod(p)}
               className={cn(
-                'px-4 py-2 rounded-lg text-xs font-semibold transition-all',
+                'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap',
                 period === p
                   ? 'bg-brand-700 text-white shadow-sm'
                   : 'text-muted-foreground hover:text-foreground'
@@ -205,22 +206,19 @@ export default function SupplierDashboard() {
         </div>
 
         {/* Right: Date picker */}
-        <div className="relative" ref={datePickerRef}>
+        <div className="relative shrink-0" ref={datePickerRef}>
           <button
             onClick={() => setShowDatePicker((v) => !v)}
             className={cn(
-              'flex items-center gap-2 px-3.5 py-2 rounded-xl border bg-card text-xs text-muted-foreground transition-all',
+              'flex items-center gap-1.5 px-2.5 sm:px-3.5 py-2 rounded-xl border bg-card text-xs text-muted-foreground transition-all',
               showDatePicker
                 ? 'border-brand-700/50 ring-2 ring-brand-700/10 text-foreground'
                 : 'border-border hover:border-brand-700/40'
             )}
           >
-            <CalendarBlank size={14} weight="light" className="text-brand-700 dark:text-brand-300 shrink-0" />
-            <span>
-              From{' '}
-              <span className="font-semibold text-foreground">{formatDisplayDate(startDate)}</span>
-              {' '}–{' '}
-              <span className="font-semibold text-foreground">{formatDisplayDate(endDate)}</span>
+            <CalendarBlank size={13} weight="light" className="text-brand-700 dark:text-brand-300 shrink-0" />
+            <span className="font-semibold text-foreground whitespace-nowrap text-[11px] sm:text-xs">
+              {formatDisplayDate(startDate)} – {formatDisplayDate(endDate)}
             </span>
           </button>
 
@@ -274,7 +272,7 @@ export default function SupplierDashboard() {
       </div>
 
       {/* ─── KPI CARDS ─── */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <KpiCard
           title="Total Sales"
           value={`${kpi.sales.toLocaleString('en')} SAR`}
@@ -382,8 +380,9 @@ export default function SupplierDashboard() {
             <p className="text-xs text-muted-foreground mt-1">Breakdown of all time orders</p>
           </CardHeader>
           <CardContent>
-            <div className="flex items-center gap-3">
-              {/* Pie — left (232×212) */}
+            {/* Mobile: pie above legend, both centered. Desktop: pie left, legend right */}
+            <div className="flex flex-col items-center sm:flex-row sm:items-center gap-3">
+              {/* Pie */}
               <div className="relative shrink-0">
                 <PieChart width={232} height={212}>
                   <Pie
@@ -407,8 +406,8 @@ export default function SupplierDashboard() {
                 </div>
               </div>
 
-              {/* Legend — right */}
-              <div className="flex-1 space-y-2.5">
+              {/* Legend */}
+              <div className="flex-1 w-full sm:w-auto space-y-2.5">
                 {currentOrderStatus.map((s) => (
                   <div key={s.name} className="flex items-center justify-between gap-1">
                     <div className="flex items-center gap-2 min-w-0">

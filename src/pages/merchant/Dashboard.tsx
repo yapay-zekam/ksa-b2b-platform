@@ -214,15 +214,15 @@ export default function MerchantDashboard() {
           </div>
         </div>
 
-        {/* Right: Period + Date */}
-        <div className="flex items-center gap-2 flex-wrap">
-          <div className="flex items-center bg-muted rounded-xl p-0.5 gap-0.5">
+        {/* Right: Period + Date — always same row, scrollable if needed */}
+        <div className="flex items-center justify-between gap-2 overflow-x-auto scrollbar-none w-full sm:w-auto">
+          <div className="flex items-center bg-muted rounded-xl p-0.5 gap-0.5 shrink-0">
             {(['Today', 'Week', 'Month', 'Year'] as Period[]).map((p) => (
               <button
                 key={p}
                 onClick={() => setPeriod(p)}
                 className={cn(
-                  'px-3 py-1.5 rounded-lg text-xs font-medium transition-all',
+                  'px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap',
                   period === p
                     ? 'bg-card shadow-sm text-foreground'
                     : 'text-muted-foreground hover:text-foreground'
@@ -232,9 +232,9 @@ export default function MerchantDashboard() {
               </button>
             ))}
           </div>
-          <div className="flex items-center gap-2 px-3 py-2 rounded-xl border border-border bg-card text-xs text-muted-foreground hover:bg-muted transition-colors cursor-pointer">
-            <CalendarBlank size={14} weight="light" />
-            <span>From 11/29/2023 – 12/29/2023</span>
+          <div className="flex items-center gap-1.5 px-2.5 py-2 rounded-xl border border-border bg-card text-xs text-muted-foreground hover:bg-muted transition-colors cursor-pointer shrink-0">
+            <CalendarBlank size={13} weight="light" className="text-brand-700 dark:text-brand-300 shrink-0" />
+            <span className="font-semibold text-foreground whitespace-nowrap">11/29/2023 – 12/29/2023</span>
           </div>
         </div>
       </div>
@@ -329,8 +329,9 @@ export default function MerchantDashboard() {
             <p className="text-xs text-muted-foreground mt-1">Current inventory overview</p>
           </CardHeader>
           <CardContent>
-            <div className="flex items-center gap-4">
-              {/* Pie — left (242×212) */}
+            {/* Mobile: pie above legend, both centered. Desktop: pie left, legend right */}
+            <div className="flex flex-col items-center sm:flex-row sm:items-center gap-4">
+              {/* Pie */}
               <div className="relative shrink-0">
                 <PieChart width={242} height={212}>
                   <Pie
@@ -356,8 +357,8 @@ export default function MerchantDashboard() {
                 </div>
               </div>
 
-              {/* Legend — right */}
-              <div className="flex-1 space-y-2.5">
+              {/* Legend */}
+              <div className="flex-1 w-full sm:w-auto space-y-2.5">
                 {currentStockData.map((item) => (
                   <div key={item.name} className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2 min-w-0">
