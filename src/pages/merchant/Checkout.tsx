@@ -407,71 +407,133 @@ export default function CheckoutPage() {
                       {/* Items */}
                       <div className="divide-y divide-border">
                         {group.items.map((item) => (
-                          <div key={`${item.productId}-${item.supplierId}`} className="flex items-start gap-4 px-5 py-4">
-                            {/* Checkbox */}
-                            <CheckCircle size={16} weight="fill" className="text-brand-700 shrink-0 mt-1" />
-
-                            {/* Image */}
-                            <div className="w-16 h-16 rounded-xl overflow-hidden bg-muted shrink-0">
-                              <img src={item.productImage} alt={item.productTitle} className="w-full h-full object-cover" />
-                            </div>
-
-                            {/* Info */}
-                            <div className="flex-1 min-w-0">
-                              <p className="text-sm font-semibold text-foreground leading-snug">
-                                <span className="text-brand-700 dark:text-brand-300">{item.productTitle.split(' ')[0]}</span>
-                                {' '}{item.productTitle.split(' ').slice(1).join(' ')}
-                              </p>
-                              <p className="text-xs text-muted-foreground mt-0.5">{item.unit}</p>
-                              <div className="flex flex-col gap-0.5 mt-1.5">
-                                <div className="flex items-center gap-1">
-                                  <Truck size={10} weight="light" className="text-emerald-500" />
-                                  <span className="text-[10px] text-emerald-600">{item.deliveryDays}</span>
+                          <div key={`${item.productId}-${item.supplierId}`} className="px-5 py-4">
+                            {/* Mobile layout — mirrors My Cart cards */}
+                            <div className="sm:hidden">
+                              <div className="flex gap-3">
+                                <div className="w-16 h-16 rounded-xl overflow-hidden bg-muted shrink-0">
+                                  <img src={item.productImage} alt={item.productTitle} className="w-full h-full object-cover" />
                                 </div>
-                                {item.promoNote && (
-                                  <div className="flex items-center gap-1">
-                                    <Tag size={10} weight="light" className="text-brand-700" />
-                                    <span className="text-[10px] text-brand-700 dark:text-brand-300">{item.promoNote}</span>
+                                <div className="flex-1 min-w-0">
+                                  <p className="text-xs font-semibold text-foreground leading-snug line-clamp-2">
+                                    {item.productTitle}
+                                  </p>
+                                  <p className="text-[10px] text-muted-foreground mt-0.5">{item.unit}</p>
+                                  <div className="flex items-center gap-1 mt-1">
+                                    <Truck size={10} weight="light" className="text-emerald-500 shrink-0" />
+                                    <span className="text-[10px] text-emerald-600 dark:text-emerald-400">
+                                      {item.deliveryDays}
+                                    </span>
                                   </div>
-                                )}
-                              </div>
-                            </div>
-
-                            {/* Right block: qty stepper + price + remove (fixed layout for consistent alignment) */}
-                            <div className="flex items-center gap-3 shrink-0">
-                              {/* Qty stepper */}
-                              <div className="flex items-center border border-border rounded-xl overflow-hidden">
-                                <button
-                                  onClick={() => updateQty(item.productId, item.supplierId, item.quantity - 1)}
-                                  className="w-8 h-8 flex items-center justify-center hover:bg-muted transition-colors text-muted-foreground"
-                                >
-                                  <Minus size={11} weight="bold" />
-                                </button>
-                                <span className="w-10 text-center text-xs font-semibold">{item.quantity}</span>
-                                <button
-                                  onClick={() => updateQty(item.productId, item.supplierId, item.quantity + 1)}
-                                  className="w-8 h-8 flex items-center justify-center hover:bg-muted transition-colors text-muted-foreground"
-                                >
-                                  <Plus size={11} weight="bold" />
-                                </button>
-                              </div>
-
-                              {/* Price + remove stacked */}
-                              <div className="flex flex-col items-end gap-1.5 w-[90px]">
+                                  {item.promoNote && (
+                                    <div className="flex items-center gap-1 mt-0.5">
+                                      <Tag size={10} weight="light" className="text-brand-700 shrink-0" />
+                                      <span className="text-[10px] text-brand-700 dark:text-brand-300">
+                                        {item.promoNote}
+                                      </span>
+                                    </div>
+                                  )}
+                                </div>
                                 <button
                                   onClick={() => removeItem(item.productId, item.supplierId)}
-                                  className="p-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-muted-foreground hover:text-red-500 transition-colors self-end"
+                                  className="p-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-muted-foreground hover:text-red-500 transition-colors shrink-0 self-start"
                                 >
                                   <Trash size={13} weight="light" />
                                 </button>
-                                {item.originalPrice && (
-                                  <p className="text-xs text-muted-foreground line-through text-right">
-                                    {(item.originalPrice * item.quantity).toLocaleString('en', { minimumFractionDigits: 2 })} SAR
+                              </div>
+
+                              <div className="flex items-center justify-end gap-4 mt-3">
+                                <div className="flex items-center border border-border rounded-xl overflow-hidden">
+                                  <button
+                                    onClick={() => updateQty(item.productId, item.supplierId, item.quantity - 1)}
+                                    className="w-7 h-7 flex items-center justify-center hover:bg-muted transition-colors text-muted-foreground hover:text-foreground"
+                                  >
+                                    <Minus size={11} weight="bold" />
+                                  </button>
+                                  <span className="w-8 text-center text-xs font-semibold text-foreground">
+                                    {item.quantity}
+                                  </span>
+                                  <button
+                                    onClick={() => updateQty(item.productId, item.supplierId, item.quantity + 1)}
+                                    className="w-7 h-7 flex items-center justify-center hover:bg-muted transition-colors text-muted-foreground hover:text-foreground"
+                                  >
+                                    <Plus size={11} weight="bold" />
+                                  </button>
+                                </div>
+                                <div className="text-right min-w-[90px]">
+                                  {item.originalPrice && (
+                                    <p className="text-[10px] text-muted-foreground line-through">
+                                      {(item.originalPrice * item.quantity).toLocaleString('en', { minimumFractionDigits: 2 })} SAR
+                                    </p>
+                                  )}
+                                  <p className="text-sm font-bold text-foreground">
+                                    {(item.price * item.quantity).toLocaleString('en', { minimumFractionDigits: 2 })} SAR
                                   </p>
-                                )}
-                                <p className="text-sm font-bold text-foreground text-right">
-                                  {(item.price * item.quantity).toLocaleString('en', { minimumFractionDigits: 2 })} SAR
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Desktop layout — unchanged */}
+                            <div className="hidden sm:flex items-start gap-4">
+                              <CheckCircle size={16} weight="fill" className="text-brand-700 shrink-0 mt-1" />
+
+                              <div className="w-16 h-16 rounded-xl overflow-hidden bg-muted shrink-0">
+                                <img src={item.productImage} alt={item.productTitle} className="w-full h-full object-cover" />
+                              </div>
+
+                              <div className="flex-1 min-w-0">
+                                <p className="text-sm font-semibold text-foreground leading-snug">
+                                  <span className="text-brand-700 dark:text-brand-300">{item.productTitle.split(' ')[0]}</span>
+                                  {' '}{item.productTitle.split(' ').slice(1).join(' ')}
                                 </p>
+                                <p className="text-xs text-muted-foreground mt-0.5">{item.unit}</p>
+                                <div className="flex flex-col gap-0.5 mt-1.5">
+                                  <div className="flex items-center gap-1">
+                                    <Truck size={10} weight="light" className="text-emerald-500" />
+                                    <span className="text-[10px] text-emerald-600">{item.deliveryDays}</span>
+                                  </div>
+                                  {item.promoNote && (
+                                    <div className="flex items-center gap-1">
+                                      <Tag size={10} weight="light" className="text-brand-700" />
+                                      <span className="text-[10px] text-brand-700 dark:text-brand-300">{item.promoNote}</span>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+
+                              <div className="flex items-center gap-3 shrink-0">
+                                <div className="flex items-center border border-border rounded-xl overflow-hidden">
+                                  <button
+                                    onClick={() => updateQty(item.productId, item.supplierId, item.quantity - 1)}
+                                    className="w-8 h-8 flex items-center justify-center hover:bg-muted transition-colors text-muted-foreground"
+                                  >
+                                    <Minus size={11} weight="bold" />
+                                  </button>
+                                  <span className="w-10 text-center text-xs font-semibold">{item.quantity}</span>
+                                  <button
+                                    onClick={() => updateQty(item.productId, item.supplierId, item.quantity + 1)}
+                                    className="w-8 h-8 flex items-center justify-center hover:bg-muted transition-colors text-muted-foreground"
+                                  >
+                                    <Plus size={11} weight="bold" />
+                                  </button>
+                                </div>
+
+                                <div className="flex flex-col items-end gap-1.5 w-[90px]">
+                                  <button
+                                    onClick={() => removeItem(item.productId, item.supplierId)}
+                                    className="p-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-muted-foreground hover:text-red-500 transition-colors self-end"
+                                  >
+                                    <Trash size={13} weight="light" />
+                                  </button>
+                                  {item.originalPrice && (
+                                    <p className="text-xs text-muted-foreground line-through text-right">
+                                      {(item.originalPrice * item.quantity).toLocaleString('en', { minimumFractionDigits: 2 })} SAR
+                                    </p>
+                                  )}
+                                  <p className="text-sm font-bold text-foreground text-right">
+                                    {(item.price * item.quantity).toLocaleString('en', { minimumFractionDigits: 2 })} SAR
+                                  </p>
+                                </div>
                               </div>
                             </div>
                           </div>
