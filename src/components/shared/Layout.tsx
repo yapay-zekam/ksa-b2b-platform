@@ -34,8 +34,8 @@ export function Layout({ role }: LayoutProps) {
       <Topbar
         sidebarCollapsed={collapsed}
         role={role}
-        userName="Ali"
-        businessName={role === 'merchant' ? 'Al Noor Cafe' : 'Miyad International'}
+        userName="Ugur"
+        businessName={role === 'merchant' ? 'Hafız Mustafa Baklava' : 'U Coffee Shop'}
         onOpenAi={() => setAiOpen(true)}
         onMobileMenuOpen={() => setMobileOpen(true)}
       />

@@ -25,8 +25,8 @@ interface TopbarProps {
 export function Topbar({
   sidebarCollapsed,
   role = 'merchant',
-  userName = 'Ali',
-  businessName = 'Al Noor Cafe',
+  userName = 'Ugur',
+  businessName = 'U Coffee Shop',
   onMobileMenuOpen,
 }: TopbarProps) {
   const { theme, toggleTheme } = useTheme();
@@ -58,7 +58,7 @@ export function Topbar({
       {/* Greeting */}
       <div className="flex-1 min-w-0">
         <h2 className="text-sm font-semibold text-foreground truncate">
-          Good morning, {userName} 👋
+          Hi, {userName} 👋
         </h2>
         <p className="text-xs text-muted-foreground flex items-center gap-1">
           <Buildings size={11} weight="light" />
