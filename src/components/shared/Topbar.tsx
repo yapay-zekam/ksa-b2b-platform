@@ -62,7 +62,7 @@ export function Topbar({
         </h2>
         <p className="text-xs text-muted-foreground flex items-center gap-1">
           <Buildings size={11} weight="light" />
-          {isSupplier ? 'Supplier Portal' : businessName}
+          {isSupplier ? 'Gurmelon Markets Co.' : businessName}
         </p>
       </div>
 
