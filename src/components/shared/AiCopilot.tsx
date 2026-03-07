@@ -517,7 +517,7 @@ export function AiCopilot({ isOpen, onClose }: AiCopilotProps) {
                 </div>
                 <div className="bg-muted rounded-2xl rounded-tl-sm px-4 py-3 max-w-[90%]">
                   <p className="text-xs text-foreground leading-relaxed">
-                    Hello, Tariq! 👋 I'm your <strong>Suptomer Co-pilot</strong>.<br /><br />
+                    Hello, Ugur! 👋 I'm your <strong>Suptomer Co-pilot</strong>.<br /><br />
                     I have access to your sales data, inventory levels, and merchant activity. Ask me anything or tap a quick action below.
                   </p>
                 </div>
